@@ -1,0 +1,242 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #3498db;
+    color: #fff;
+    padding-top: 0;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1{
+    font-size: 40px;
+    color: white;
+    padding-top: 10px;
+    padding-left: 50px;
+    font-family: 'Georgia', serif;
+}
+
+header img {
+    margin-top: 10px;
+    margin-left: 25px;
+    width: 100px;
+    height: 100px;
+}
+
+.left-section {
+    flex: 1; /* Take up available space */
+}
+
+.right-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.search-container {
+    padding: 10px 30px 0px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+h3 {
+    margin: 0; /* Reset margin for h3 */
+    margin-right: 5px; /* Adjust margin for h3 */
+    font-size: 20px;
+}
+
+input[type="text"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.button-container{
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    margin-left: 10px;
+}
+
+button {
+    padding: 8px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-add{
+    margin-left: 60px;
+}
+
+nav {
+    background-color: #3498db;
+    color: #fff;
+    padding-top: 0px;
+    padding-right: 25px;
+    text-align: center;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    padding-right: 20px;
+    margin: 0 0;
+    font-size: 20px;
+    display: inline-block;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 1px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+nav .category-dropdown {
+    position: relative;
+    display: inline-block;
+    font-weight: bold;
+}
+
+nav .category-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.9);
+    min-width: 150px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+nav .category-dropdown:hover .category-dropdown-content {
+    display: block;
+}
+
+nav .category-dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    display: block;
+    text-align: left;
+}
+
+nav .category-dropdown-content a:hover {
+    background-color: #d6d6d6;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.produk-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.produk-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 10px;
+    width: 250px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.produk-item img {
+    margin-top: 10px;
+}
+
+.produk-item h2 {
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 35px;
+}
+
+.produk-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    background-color: #f9f9f9;
+}
+
+.produk-item img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.produk-item p {
+    text-align: left;
+    font-size: 15px;
+    padding-left: 20px;
+}
+
+.add-to-cart, .buy-now {
+    margin-left: 20px;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.buy-now {
+    background-color: #28a745; /* Ganti warna sesuai preferensi Anda */
+    margin-bottom: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 90%;
+    margin-top: 20px;
+    margin-left: 60px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+footer {
+    background-color: #3498db;
+    color: #fff;
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
