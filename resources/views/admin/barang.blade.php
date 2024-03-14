@@ -22,7 +22,7 @@
                     <td>{{ $item->category }}</td>
                     <td>{{ $item->stok }}</td>
                     <td>{{ $item->tanggal_exp }}</td>
-                    <td>{{ $item->harga }}</td>
+                    <td>{{ number_format($item->harga, 0, ',', '.') }}</td>
                     <td>
                         <a href="{{ route('barang.edit', ['id' => $item->id]) }}" class="btn btn-edit">Edit</a>
                         |

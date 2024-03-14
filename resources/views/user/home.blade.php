@@ -7,7 +7,8 @@
                 <img src="{{ asset($item->gambar) }}" alt="{{ $item->nama }}">
                 <h2>{{ $item->nama }}</h2>
 
-                <p>Harga : Rp. {{ $item->harga }}</p>
+                <p>Stok : {{ $item->stok }}</p>
+                <p>Harga : Rp. {{ number_format($item->harga, 0, ',', '.') }}</p>
                 <p>Tanggal Exp : {{ $item->tanggal_exp }}</p>
 
                 <button class="add-to-cart" data-product="{{ $item->nama }}" data-price="{{ $item->harga }}">Tambahkan ke Keranjang</button>
