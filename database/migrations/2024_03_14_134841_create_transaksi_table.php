@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('barang_id')->constrained('barang')->onDelete('cascade');
-            $table->unsignedInteger('jumlah_masuk')->default(0);
-            $table->unsignedInteger('jumlah_keluar')->default(0);
+            $table->unsignedBigInteger('barang_id');
+            $table->string('nama_produk');
+            $table->decimal('harga', 10, 2);
+            $table->integer('jumlah_produk');
             $table->timestamps();
+
+            // Define foreign key constraint
+            $table->foreign('barang_id')->references('id')->on('barang')->onDelete('cascade');
         });
     }
 

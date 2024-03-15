@@ -275,10 +275,10 @@ h2{
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.produk-item h2 {
+.produk-item .product h2 {
     text-align: left;
-    padding-left: 10px;
     padding-right: 35px;
+    padding-left: 0px;
 }
 
 .produk-item:hover {
@@ -306,6 +306,10 @@ h2{
 
 .left-column {
     width: 65%;
+}
+
+.left-column h2{
+    padding-left: 40px;
 }
 
 .right-column {
@@ -337,12 +341,13 @@ h2{
 .harga {
     flex: 1;
     text-align: center;
-    padding-left: 25px;
+    padding-left: 10px;
 }
 
 .total {
     flex: 1;
     text-align: left;
+    padding-left: 10px;
 }
 
 .aksi {
@@ -355,10 +360,19 @@ h2{
     color: #fff;
     border: 1px solid #007bff;
     margin-bottom: 30px;
+    margin-left: 365px;
 }
 
 .right-column p {
     text-align: right;
+}
+
+#cart-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 10px;
 }
 
 #cart-items {
@@ -373,35 +387,34 @@ h2{
 #cart-items li {
     display: flex;
     justify-content: space-between;
-    align-items: right;
-    width: 95%;
+    align-items: left;
     padding-top: 10px;
     padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 20px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Transparan black border */
+}
+
+#cart-items li div {
+    flex: 1;
+    align-items: left;
+    margin-right: 30px;
+    margin-left: 15px;
 }
 
 #cart-items li .harga {
     flex: 1;
-    text-align: center;
+    text-align: left;
+    padding-right: 15px;
 }
 
 #cart-items li .quantity {
     flex: 1;
-    text-align: center;
-    padding-right: 15px;
+    text-align: right;
+    padding-right: 35px;
 }
 
 #cart-items li .aksi {
     flex: 1;
-    text-align: left;
-}
-
-#cart-items div {
-    align-items: left;
-    margin-right: 20px;
-    margin-left: 20px;
+    text-align: right;
 }
 
 #cart-items li button {
@@ -417,14 +430,6 @@ h2{
 
 #cart-items li span {
     margin-right: 20px;
-}
-
-#cart-total {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    padding-top: 10px;
 }
 
 #left-total {

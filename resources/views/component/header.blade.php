@@ -27,7 +27,7 @@
                         <li><a href="{{ route('index') }}">Home</a></li>
                         <li><a href="{{ route('kasir.index') }}">Kasir</a></li>
                         <li><a href="{{ route('barang.index') }}">Data Barang</a></li>
-                        <li><a href="{{ route('transaksi') }}">Data Transaksi</a></li>
+                        <li><a href="{{ route('transaksi.index') }}">Data Transaksi</a></li>
                         <li><a href="{{ route('member') }}">Data Member</a></li>
                         <li><a href="{{ route('barang_exp') }}">Data Barang Exp</a></li>
                         <li><a href="#">Login</a></li>

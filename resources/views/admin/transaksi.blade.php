@@ -7,19 +7,21 @@
             <tr>
                 <th>ID</th>
                 <th>Barang ID</th>
-                <th>Jumlah Masuk</th>
-                <th>Jumlah Keluar</th>
-                <th>Timestamp</th>
+                <th>Nama Barang</th>
+                <th>Harga</th>
+                <th>Jumlah</th>
             </tr>
         </thead>
         <tbody>
+            @foreach($transaksi as $item)
                 <tr>
-                    <td>id</td>
-                    <td>barang_id</td>
-                    <td>jumlah_masuk</td>
-                    <td>jumlah_keluar</td>
-                    <td>created_at</td>
+                    <td>{{ $item->id }}</td>
+                    <td>{{ $item->barang_id }}</td>
+                    <td>{{ $item->nama_produk }}</td>
+                    <td>{{ $item->harga }}</td>
+                    <td>{{ $item->jumlah_produk }}</td>
                 </tr>
+            @endforeach
         </tbody>
     </table>
     <br>

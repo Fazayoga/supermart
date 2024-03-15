@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Tambahkan harga produk
                 const priceElement = document.createElement('div');
-                priceElement.classList.add('data-harga');
+                priceElement.classList.add('harga');
                 priceElement.textContent = `Rp. ${productPrice.toFixed(2)}`;
                 listItem.appendChild(priceElement);
                 
@@ -57,14 +57,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Tambahkan tombol kurangi
                 const decreaseButton = document.createElement('button');
                 decreaseButton.textContent = 'Kurangi';
-                decreaseButton.addEventListener('click', function () {
+                decreaseButton.addEventListener('click', function (event) {
+                    event.preventDefault();
                     const quantityElement = listItem.querySelector('.quantity');
                     let quantity = parseInt(quantityElement.textContent);
                     if (quantity > 1) {
                         quantity -= 1;
                         quantityElement.textContent = quantity;
                         updateTotal();
-                    } else {
+                    } else { 
                         listItem.remove();
                         updateTotal();
                     }
@@ -78,12 +79,50 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Checkout
+    // Checkout product
     const checkoutBtn = document.getElementById('checkout-btn');
+
     checkoutBtn.addEventListener('click', function () {
-        alert(`Total pembelian: Rp.${cartTotal.toFixed(2)}`);
-        // Implementasikan proses checkout sesuai kebutuhan
-        // Misalnya, kirim data pembelian ke server, atau tampilkan formulir pembayaran, dll.
+        const cartItems = document.getElementById('cart-items');
+        const cartData = [];
+
+        cartItems.querySelectorAll('li').forEach(item => {
+            const productId = item.getAttribute('data-id');
+            const productName = item.textContent.trim();
+            const productPrice = parseFloat(item.getAttribute('data-harga'));
+            const quantity = parseInt(item.querySelector('.quantity').textContent);
+
+            cartData.push({
+                barang_id: productId,
+                nama_produk: productName,
+                harga: productPrice,
+                jumlah_produk: quantity
+            });
+        });
+
+        // Log data yang akan dikirim ke server
+        console.log("Data yang akan dikirim:", { cartData: cartData });
+        
+        // Kirim data pembelian ke fungsi checkout melalui AJAX
+        fetch('/kasir/checkout', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ cartData: cartData })
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Transaksi berhasil');
+                window.location.href = '/kasir';
+            } else {
+                console.error('Transaksi gagal');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     });
 
     // Fungsi untuk memperbarui total setelah menghapus atau mengurangi item
