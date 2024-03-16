@@ -18,31 +18,42 @@ class KasirController extends Controller
     
     public function checkout(Request $request)
     {
-        // Ambil data pembelian dari request
-        $cartData = $request->input('cartData');
+        $request->validate([
+            'barang_id.*' => 'required|exists:barangs,id',
+            'nama_produk.*' => 'required|string',
+            'harga.*' => 'required|numeric',
+            'jumlah_produk.*' => 'required|integer',
+        ]);
 
-        if (!empty($cartData)) {
-            try {
-                // Simpan data transaksi ke dalam database
-                foreach ($cartData as $item) {
-                    // Gunakan metode create untuk membuat dan menyimpan data
-                    Transaksi::create([
-                        'barang_id' => $item['barang_id'],
-                        'nama_produk' => $item['nama_produk'],
-                        'harga' => $item['harga'],
-                        'jumlah_produk' => $item['jumlah_produk'],
-                    ]);
+        try {
+            // Proses transaksi
+            foreach ($request->barang_id as $key => $barangId) {
+                $barang = Barang::find($barangId);
+
+                // Lakukan validasi stok
+                if ($barang->stok >= $request->jumlah_produk[$key]) {
+                    // Lakukan sesuatu dengan transaksi, misalnya, simpan ke database
+                    $transaksi = new Transaksi;
+                    $transaksi->barang_id = $barangId;
+                    $transaksi->nama_produk = $request->nama_produk[$key];
+                    $transaksi->harga = $request->harga[$key];
+                    $transaksi->jumlah_produk = $request->jumlah_produk[$key];
+                    $transaksi->save();
+
+                    // Kurangi stok barang
+                    $barang->stok -= $request->jumlah_produk[$key];
+                    $barang->save();
+                } else {
+                    // Stok tidak mencukupi
+                    return redirect()->route('kasir.index')->with('error', 'Stok barang tidak mencukupi untuk ' . $barang->nama);
                 }
-
-                // Redirect kembali ke halaman kasir setelah checkout
-                return redirect()->route('kasir.index')->with('success', 'Transaction successful');
-            } catch (\Exception $e) {
-                // Tangani jika terjadi kesalahan saat menyimpan data
-                Log::error($e->getMessage()); // Catat pesan kesalahan dalam log
-                return back()->with('error', 'Failed to save transaction data');
             }
-        } else {
-            return back()->with('error', 'No items in the cart');
+
+            return redirect()->route('kasir.index')->with('success', 'Transaksi berhasil!');
+        } catch (\Exception $e) {
+            // Tangani jika terjadi kesalahan
+            Log::error($e->getMessage());
+            return redirect()->route('kasir.index')->with('error', 'Gagal melakukan checkout');
         }
     }
 }

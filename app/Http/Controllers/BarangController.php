@@ -66,7 +66,6 @@ class BarangController extends Controller
     {
         // Validasi input
         $request->validate([
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'nama' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'stok' => 'required|integer',
@@ -74,25 +73,30 @@ class BarangController extends Controller
             'tanggal_exp' => 'required|date_format:Y-m-d',
         ]);
     
-        // Update data barang
+        // Temukan data barang
         $barang = Barang::find($id);
     
-        // Cek ketersediaan gambar lama sebelum mencoba menghapusnya
-        if ($barang->gambar) {
-            Storage::delete($barang->gambar); // Menghapus gambar lama dari penyimpanan
-        }
-    
-        // Menghapus gambar lama jika ada gambar baru yang diunggah
+        // Cek apakah gambar baru diunggah atau tidak
         if ($request->hasFile('gambar')) {
+            // Validasi gambar
+            $request->validate([
+                'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+    
+            // Menghapus gambar lama jika ada
+            if ($barang->gambar) {
+                Storage::delete($barang->gambar); // Menghapus gambar lama dari penyimpanan
+            }
+    
+            // Simpan gambar baru
             $image = $request->file('gambar');
             $imageName = time().'.'.$image->extension();
             $image->move(public_path('images'), $imageName);
             $barang->gambar = 'images/' . $imageName; // Menyimpan path gambar baru
         }
     
-        // Update data lainnya
+        // Update data barang
         $barang->update([
-            'gambar' => 'images/' . $imageName,
             'nama' => $request->input('nama'),
             'category' => $request->input('category'),
             'stok' => $request->input('stok'),

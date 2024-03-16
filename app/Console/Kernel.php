@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->call('App\Http\Controllers\BarangController@checkAndMoveExpired')->daily(); // Sesuaikan jadwal sesuai kebutuhan Anda
+        $schedule->command('check:expired-items')->daily();
     }
 
     /**

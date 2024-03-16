@@ -6,6 +6,7 @@
     <title>MAMTQ Supermart</title>
     <link rel="icon" type="img/x-icon" href="{{ asset('logo.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 </head>
 <body>
@@ -29,7 +30,7 @@
                         <li><a href="{{ route('barang.index') }}">Data Barang</a></li>
                         <li><a href="{{ route('transaksi.index') }}">Data Transaksi</a></li>
                         <li><a href="{{ route('member') }}">Data Member</a></li>
-                        <li><a href="{{ route('barang_exp') }}">Data Barang Exp</a></li>
+                        <li><a href="{{ route('barangexp.index') }}">Data Barang Exp</a></li>
                         <li><a href="#">Login</a></li>
                     </ul>
                 </ul>

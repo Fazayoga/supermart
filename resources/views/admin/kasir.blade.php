@@ -34,8 +34,53 @@
                 <p>Total: Rp. <span id="total">0.00</span></p>
                 <!-- Tambahkan input hidden untuk CSRF token -->
                 <input type="hidden" name="_token" id="csrf-token" value="{{ csrf_token() }}" />
-                <button id="checkout-btn" class="checkout">Checkout</button>
+                <input type="submit" id="checkout-btn" class="checkout" value="Checkout">
             </form>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function(){
+            $('#checkout-form').submit(function(e){
+                e.preventDefault(); // Mencegah pengiriman formulir secara default
+    
+                // Mengambil data pembelian dari formulir
+                var cartData = [];
+                $('.produk-item').each(function(){
+                    var productId = $(this).data('id');
+                    var productName = $(this).find('h2').text();
+                    var price = $(this).data('harga');
+                    var quantity = 1; // Misalnya, kita hanya mendukung jumlah produk 1 pada saat ini
+    
+                    var item = {
+                        'barang_id': productId,
+                        'nama_produk': productName,
+                        'harga': price,
+                        'jumlah_produk': quantity
+                    };
+    
+                    cartData.push(item);
+                });
+    
+                // Mengirim data pembelian ke controller Laravel melalui AJAX
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('kasir.checkout') }}",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "cartData": cartData
+                    },
+                    success: function(response){
+                        // Handle kesuksesan, misalnya, tampilkan pesan sukses dan muat ulang halaman
+                        alert("Transaksi berhasil!");
+                        window.location.reload();
+                    },
+                    error: function(xhr, status, error){
+                        // Handle kesalahan, misalnya, tampilkan pesan kesalahan
+                        alert("Gagal melakukan checkout: " + error);
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

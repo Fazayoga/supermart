@@ -135,7 +135,7 @@ table {
 
 .tr, td, img{
     width: 200px;
-    height: 100px;
+    height: auto;
 }
 
 th, td {
@@ -357,10 +357,21 @@ h2{
 
 .checkout {
     background-color: #007bff;
-    color: #fff;
-    border: 1px solid #007bff;
-    margin-bottom: 30px;
-    margin-left: 365px;
+    border: none;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-left: 355px;
+}
+
+.checkout:hover {
+    background-color: #45a049; /* Warna latar hijau yang lebih gelap saat hover */
 }
 
 .right-column p {

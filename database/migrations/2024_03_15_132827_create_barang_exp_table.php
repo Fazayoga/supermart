@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('barang_exp', function (Blueprint $table) {
             $table->id();
-            $table->integer('barang_id');
-            $table->string('total');
-            $table->integer('harga');
+            $table->string('nama')->nullable();
+            $table->string('category')->nullable();
+            $table->integer('stok')->nullable();
+            $table->decimal('harga', 10, 2)->nullable();
+            $table->date('tanggal_exp')->nullable();
             $table->timestamps();
         });
     }

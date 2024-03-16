@@ -5,6 +5,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\BarangExpController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,3 +49,5 @@ Route::get('/kasir', [KasirController::class, 'index'])->name('kasir.index');
 Route::post('/kasir/checkout', [KasirController::class, 'checkout'])->name('kasir.checkout');
 
 Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+
+Route::get('/barang_exp', [BarangExpController::class, 'index'])->name('barangexp.index');

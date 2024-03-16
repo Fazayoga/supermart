@@ -1,29 +1,29 @@
 @extends('mainlayout')
 
 @section('maincontent')
-    <h2>Data Barang</h2>
+    <h2>Data Barang Expired</h2>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nama</th>
+                <th>Nama Barang</th>
+                <th>Kategori</th>
                 <th>Stok</th>
-                <th>Tanggal Exp</th>
                 <th>Harga</th>
-                <th>Aksi</th>
+                <th>Tanggal Expired</th>
             </tr>
         </thead>
         <tbody>
+            @foreach($barang_exp as $barang)
                 <tr>
-                    <td>ID</td>
-                    <td>Nama</td>
-                    <td>Stok</td>
-                    <td>Tanggal Exp</td>
-                    <td>Harga</td>
-                    <td>Hapus | Edit</td>
+                    <td>{{ $barang->id }}</td>
+                    <td>{{ $barang->nama }}</td>
+                    <td>{{ $barang->category }}</td>
+                    <td>{{ $barang->stok }}</td>
+                    <td>Rp. {{ number_format($barang->harga, 0, ',', '.') }}</td>
+                    <td>{{ $barang->tanggal_exp }}</td>
                 </tr>
+            @endforeach
         </tbody>
-    </table>    
-    <br>
-    <button class="button-add" id="showAddMemberForm">Tambah Data Barang</button>
+    </table>
 @endsection
