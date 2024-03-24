@@ -56,4 +56,14 @@ class KasirController extends Controller
             return redirect()->route('kasir.index')->with('error', 'Gagal melakukan checkout');
         }
     }
+
+    public function pembelian()
+    {
+        // Mengambil semua transaksi beserta data barang terkait
+        $transaksi = Transaksi::with('barang')->get();
+
+        // Kembalikan view dengan data transaksi
+        return view('admin.pembelian', ['transaksi' => $transaksi]);
+    }
+
 }

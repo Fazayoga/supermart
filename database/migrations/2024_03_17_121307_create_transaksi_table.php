@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('barang_id');
-            $table->string('nama_produk');
+            $table->string('nama_barang');
             $table->decimal('harga', 10, 2);
             $table->integer('jumlah_produk');
             $table->timestamps();

@@ -6,24 +6,21 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Barang ID</th>
                 <th>Nama Barang</th>
                 <th>Harga</th>
                 <th>Jumlah</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($transaksi as $item)
+            @foreach ($transaksi as $index => $item)
                 <tr>
-                    <td>{{ $item->id }}</td>
-                    <td>{{ $item->barang_id }}</td>
-                    <td>{{ $item->nama_produk }}</td>
-                    <td>{{ $item->harga }}</td>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $item->barang->nama }}</td>
+                    <td>Rp. {{ number_format($item->harga, 0, ',', '.') }}</td>
                     <td>{{ $item->jumlah_produk }}</td>
+                    <td>Rp. {{ number_format($item->harga * $item->jumlah_produk, 0, ',', '.') }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-    <br>
-    <button class="button-add" id="showAddMemberForm">Tambah Data Barang</button>
 @endsection

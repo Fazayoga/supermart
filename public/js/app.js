@@ -43,8 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 quantityElement.textContent = '1';
                 listItem.appendChild(quantityElement);
 
-                cartItems.appendChild(listItem);
-
                 // Tambahkan tombol hapus
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Hapus';
@@ -71,6 +69,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 });
                 listItem.appendChild(decreaseButton);
+
+                cartItems.appendChild(listItem);
             }
 
             // Perbarui total
@@ -100,11 +100,8 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // Log data yang akan dikirim ke server
-        console.log("Data yang akan dikirim:", { cartData: cartData });
-        
         // Kirim data pembelian ke fungsi checkout melalui AJAX
-        fetch('/kasir/checkout', { 
+        fetch('{{ route("kasir.checkout") }}', { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -115,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => {
             if (response.ok) {
                 console.log('Transaksi berhasil');
-                window.location.href = '/kasir';
+                window.location.href = '{{ route("kasir.index") }}';
             } else {
                 console.error('Transaksi gagal');
             }

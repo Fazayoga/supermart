@@ -18,4 +18,8 @@ class Transaksi extends Model
         'jumlah_produk',
     ];
 
+    public function barang()
+    {
+        return $this->belongsTo(Barang::class);
+    }
 }

@@ -30,10 +30,6 @@ Route::get('/barang_exp', function () {
     return view('admin.barang_exp');
 })->name('barang_exp');
 
-Route::get('/home', function () {
-    return view('user.home');
-})->name('home');
-
 Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 
 Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
@@ -49,5 +45,6 @@ Route::get('/kasir', [KasirController::class, 'index'])->name('kasir.index');
 Route::post('/kasir/checkout', [KasirController::class, 'checkout'])->name('kasir.checkout');
 
 Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+Route::post('/simpan-pembelian', [TransaksiController::class, 'simpanPembelian'])->name('transaksi.pembelian');
 
 Route::get('/barang_exp', [BarangExpController::class, 'index'])->name('barangexp.index');
