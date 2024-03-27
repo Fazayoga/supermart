@@ -33,10 +33,10 @@
                 </div>
                 <div id="diskon-container">
                     <label for="diskon">Diskon (%):</label>
-                    <select id="diskon">
+                    <select id="diskon" name="diskon"> <!-- Tambahkan name="diskon" di sini -->
                         <option value="">Tidak Ada Diskon</option>
                         @foreach($diskon as $discount)
-                            <option value="{{ $discount->besar_diskon }}">{{ $discount->nama }}</option>
+                            <option value="{{ $discount->id }}">{{ $discount->nama }}</option> <!-- Ubah value menjadi ID diskon -->
                         @endforeach
                     </select>
                 </div>
@@ -106,7 +106,8 @@
                     url: "{{ route('kasir.checkout') }}",
                     data: {
                         "_token": "{{ csrf_token() }}",
-                        "cartData": cartData
+                        "cartData": cartData,
+                        "diskon": $('#diskon').val() 
                     },
                     success: function(response){
                         alert("Transaksi berhasil!");
@@ -128,15 +129,21 @@
                 $('#total').text(cartTotal.toFixed(2));
             }
 
-            function updateTotalWithDiskon() {
-                var diskonValue = parseFloat($('#diskon').val());
-                var subtotal = parseFloat($('#total').text());
+            $('#diskon').change(function () {
+                var diskonValue = parseFloat($(this).val()); // Ambil nilai diskon yang dipilih
+                var subtotal = parseFloat($('#total').text()); // Ambil subtotal dari total belanja
 
-                if (!isNaN(diskonValue) && diskonValue > 0) {
+                if (!isNaN(diskonValue)) { // Periksa apakah diskon dipilih
+                    // Hitung total belanja setelah diskon
                     var totalWithDiscount = subtotal - (subtotal * (diskonValue / 100));
+
+                    // Tampilkan total belanja setelah diskon
                     $('#total').text(totalWithDiscount.toFixed(2));
+                } else {
+                    // Jika diskon tidak dipilih, tampilkan total belanja tanpa diskon
+                    $('#total').text(subtotal.toFixed(2));
                 }
-            }
+            });
         });
     </script>
 @endsection

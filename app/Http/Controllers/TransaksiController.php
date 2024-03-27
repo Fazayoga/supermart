@@ -9,9 +9,9 @@ class TransaksiController extends Controller
 {
     public function index()
     {
-        $transaksi = Transaksi::all();
+        $transaksi = Transaksi::with('diskon')->get();
 
-        return view('admin.transaksi', ['transaksi' => $transaksi]);
+        return view('admin.transaksi', compact('transaksi'));
     }
 
     public function simpanPembelian(Request $request)
@@ -22,29 +22,29 @@ class TransaksiController extends Controller
             'harga' => 'required|numeric',
             'jumlah_produk' => 'required|integer',
         ]);
-
+    
         // Ambil nilai diskon dari request
         $diskonValue = $request->diskon;
-
+    
         // Hitung total_amount dengan mengalikan harga dengan jumlah_produk
         $totalAmount = $validatedData['harga'] * $validatedData['jumlah_produk'];
-
+    
         // Jika diskon diberikan, hitung total_amount setelah diskon
         if (!is_null($diskonValue)) {
             $diskonAmount = $totalAmount * ($diskonValue / 100);
             $totalAmount -= $diskonAmount;
         }
-
+    
         // Simpan transaksi ke database
         Transaksi::create([
             'barang_id' => $validatedData['barang_id'],
             'nama_produk' => $validatedData['nama_produk'],
             'harga' => $validatedData['harga'],
-            'jumlah_produk' => $validatedData['jumlah_produk'],
+            'quantity' => $validatedData['jumlah_produk'],
             'total_amount' => $totalAmount, // Simpan total_amount
-            'diskon' => $diskonValue, // Simpan nilai diskon
+            'diskon_id' => $diskonValue, // Simpan nilai diskon
         ]);
-
+    
         return response()->json(['message' => 'Data pembelian berhasil disimpan']);
-    }
+    }    
 }
