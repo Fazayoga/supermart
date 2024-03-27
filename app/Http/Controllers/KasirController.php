@@ -21,22 +21,27 @@ class KasirController extends Controller
     {
         $cartItems = $request->cartData;
         $diskonValue = $request->diskon;
+        $totalAmount = 0;
     
         // Menghitung total belanja sebelum diskon
-        $totalAmount = 0;
         foreach ($cartItems as $item) {
             $barang = Barang::find($item['barang_id']);
             $totalAmount += $barang->harga * $item['jumlah_produk'];
         }
     
         // Menghitung total belanja setelah diskon
-        $totalWithDiskon = $totalAmount - ($totalAmount * ($diskonValue / 100));
+        if ($diskonValue) {
+            $totalWithDiskon = $totalAmount - ($totalAmount * ($diskonValue / 100));
+        } else {
+            // Jika diskon tidak ada, total dengan diskon tetap sama dengan total sebelumnya
+            $totalWithDiskon = $totalAmount;
+        }
     
         // Proses checkout dan simpan transaksi
         foreach ($cartItems as $item) {
             $barang = Barang::find($item['barang_id']);
-            if ($barang->stok > 0) {
-                $barang->stok--;
+            if ($barang->stok >= $item['jumlah_produk']) { // Ubah kondisi stok
+                $barang->stok -= $item['jumlah_produk'];
                 $barang->save();
                 // Simpan transaksi dengan total yang sudah dihitung dengan diskon
                 Transaksi::create([
@@ -45,11 +50,11 @@ class KasirController extends Controller
                     'harga' => $barang->harga,
                     'quantity' => $item['jumlah_produk'],
                     'total_amount' => $barang->harga * $item['jumlah_produk'],
-                    'diskon' => $diskonValue,
+                    'diskon' => $diskonValue, // Simpan diskon, jika ada
                     'total_with_diskon' => $totalWithDiskon
                 ]);
             } else {
-                return response()->json(['error' => 'Stok barang ' . $barang->nama . ' habis.']);
+                return response()->json(['error' => 'Stok barang ' . $barang->nama . ' tidak mencukupi.']);
             }
         }
     

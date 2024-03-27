@@ -34,7 +34,7 @@
                 <div id="diskon-container">
                     <label for="diskon">Diskon (%):</label>
                     <select id="diskon">
-                        <option value="">Pilih Diskon</option>
+                        <option value="">Tidak Ada Diskon</option>
                         @foreach($diskon as $discount)
                             <option value="{{ $discount->besar_diskon }}">{{ $discount->nama }}</option>
                         @endforeach
@@ -49,45 +49,94 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function(){
+            $('.produk-item').click(function(){
+                var productId = $(this).data('id');
+                var productName = $(this).find('h2').text();
+                var price = $(this).data('harga');
+                var quantity = 1; // Default quantity is 1
+
+                var item = {
+                    'barang_id': productId,
+                    'nama_produk': productName,
+                    'harga': price,
+                    'jumlah_produk': quantity
+                };
+
+                var listItem = '<li data-id="' + productId + '" data-harga="' + price + '">' +
+                                    '<div class="nama-produk">' + productName + '</div>' +
+                                    '<div class="harga">Rp. ' + price.toFixed(2) + '</div>' +
+                                    '<div class="quantity">' + quantity + '</div>' +
+                                    '<div class="aksi"><button class="hapus">Hapus</button></div>' +
+                                '</li>';
+                $('#cart-items').append(listItem);
+                updateTotal();
+                updateTotalWithDiskon();
+            });
+
+            $(document).on('click', '.hapus', function(){
+                $(this).closest('li').remove();
+                updateTotal();
+                updateTotalWithDiskon();
+            });
+
+            $('#diskon').change(function () {
+                updateTotalWithDiskon();
+            });
+
             $('#checkout-btn').click(function(){
                 var cartData = [];
-                $('.produk-item').each(function(){
+                $('#cart-items li').each(function(){
                     var productId = $(this).data('id');
-                    var productName = $(this).find('h2').text();
-                    var price = $(this).data('harga');
-                    var quantity = 1; // Misalnya, kita hanya mendukung jumlah produk 1 pada saat ini
-    
+                    var productName = $(this).find('.nama-produk').text();
+                    var price = parseFloat($(this).data('harga'));
+                    var quantity = parseInt($(this).find('.quantity').text());
+
                     var item = {
                         'barang_id': productId,
                         'nama_produk': productName,
                         'harga': price,
                         'jumlah_produk': quantity
                     };
-    
+
                     cartData.push(item);
                 });
-    
-                var diskonValue = parseFloat($('#diskon').val());
-    
+
                 $.ajax({
                     type: "POST",
                     url: "{{ route('kasir.checkout') }}",
                     data: {
                         "_token": "{{ csrf_token() }}",
-                        "cartData": cartData,
-                        "diskon": diskonValue
+                        "cartData": cartData
                     },
                     success: function(response){
-                        // Handle kesuksesan, misalnya, tampilkan pesan sukses dan muat ulang halaman
                         alert("Transaksi berhasil!");
                         window.location.reload();
                     },
                     error: function(xhr, status, error){
-                        // Handle kesalahan, misalnya, tampilkan pesan kesalahan
                         alert("Gagal melakukan checkout: " + error);
                     }
                 });
             });
+
+            function updateTotal() {
+                var cartTotal = 0;
+                $('#cart-items li').each(function(){
+                    var price = parseFloat($(this).data('harga'));
+                    var quantity = parseInt($(this).find('.quantity').text());
+                    cartTotal += price * quantity;
+                });
+                $('#total').text(cartTotal.toFixed(2));
+            }
+
+            function updateTotalWithDiskon() {
+                var diskonValue = parseFloat($('#diskon').val());
+                var subtotal = parseFloat($('#total').text());
+
+                if (!isNaN(diskonValue) && diskonValue > 0) {
+                    var totalWithDiscount = subtotal - (subtotal * (diskonValue / 100));
+                    $('#total').text(totalWithDiscount.toFixed(2));
+                }
+            }
         });
     </script>
 @endsection
