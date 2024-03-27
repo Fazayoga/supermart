@@ -6,6 +6,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\BarangExpController;
+use App\Http\Controllers\DiskonController;
+use App\Http\Controllers\CashierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,3 +50,19 @@ Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi
 Route::post('/simpan-pembelian', [TransaksiController::class, 'simpanPembelian'])->name('transaksi.pembelian');
 
 Route::get('/barang_exp', [BarangExpController::class, 'index'])->name('barangexp.index');
+
+Route::get('/diskon', [DiskonController::class, 'index'])->name('diskon.index');
+Route::get('/diskon/create', [DiskonController::class, 'create'])->name('diskon.create');
+Route::post('/diskon', [DiskonController::class, 'store'])->name('diskon.store');
+Route::get('/diskon/{id}/edit', [DiskonController::class, 'edit'])->name('diskon.edit');
+Route::put('/diskon/{id}', [DiskonController::class, 'update'])->name('diskon.update');
+Route::delete('/diskon/{id}', [DiskonController::class, 'destroy'])->name('diskon.destroy');
+
+//cashier
+Route::get('/cashier', [CashierController::class, 'index'])->name('cashier.index');
+Route::get('/cashier/create', [CashierController::class, 'create'])->name('cashier.create');
+Route::post('/cashier', [CashierController::class, 'store'])->name('cashier.store');
+Route::get('/cashier/{cashier}', [CashierController::class, 'show'])->name('cashier.show');
+Route::get('/cashier/{cashier}/edit', [CashierController::class, 'edit'])->name('cashier.edit');
+Route::put('/cashier/{cashier}', [CashierController::class, 'update'])->name('cashier.update');
+Route::delete('/cashier/{cashier}', [CashierController::class, 'destroy'])->name('cashier.destroy');

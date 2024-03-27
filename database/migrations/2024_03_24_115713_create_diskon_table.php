@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('diskon', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('total_belanja')->nullable();
-            $table->integer('diskon')->nullable();
+            $table->string('nama');
+            $table->decimal('besar_diskon', 10, 2);
             $table->timestamps();
         });
     }

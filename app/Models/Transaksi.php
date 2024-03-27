@@ -11,15 +11,15 @@ class Transaksi extends Model
 
     protected $table = 'transaksi';
 
-    protected $fillable = [
-        'barang_id',
-        'nama_produk',
-        'harga',
-        'jumlah_produk',
-    ];
+    protected $fillable = ['barang_id', 'diskon_id', 'quantity', 'total_amount'];
 
     public function barang()
     {
         return $this->belongsTo(Barang::class);
+    }
+
+    public function diskon()
+    {
+        return $this->belongsTo(Diskon::class);
     }
 }

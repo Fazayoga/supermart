@@ -3,7 +3,7 @@
 @section('maincontent')
     <div class="kotak">
         <div class="left-column">
-            <h2>Category</h2>
+            <h2>Kasir</h2>
             <ul class="produk-list">
                 @foreach($barang as $item)
                     <div class="produk-item product" data-id="{{ $item->id }}" data-harga="{{ $item->harga }}">
@@ -23,7 +23,7 @@
                 <div class="total">Jumlah</div>
                 <div class="aksi">Aksi</div>
             </div>
-            <form id="checkout-form" action="{{ route('kasir.checkout') }}" method="post">
+            <form id="checkout-form" action="{{ route('kasir.checkout') }}" method="POST">
                 @csrf
                 <ul id="cart-items"></ul>
                 <div id="cart-total">
@@ -31,23 +31,25 @@
                     <div id="center-total"></div>
                     <div id="right-total"></div>
                 </div>
+                <div id="diskon-container">
+                    <label for="diskon">Diskon (%):</label>
+                    <select id="diskon">
+                        <option value="">Pilih Diskon</option>
+                        @foreach($diskon as $discount)
+                            <option value="{{ $discount->besar_diskon }}">{{ $discount->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <p>Total: Rp. <span id="total">0.00</span></p>
-                <!-- Tambahkan input hidden untuk CSRF token -->
-                <input type="hidden" name="_token" id="csrf-token" value="{{ csrf_token() }}" />
-                <input type="submit" id="checkout-btn" class="checkout" value="Checkout">
+                <button type="button" id="checkout-btn" class="checkout">Checkout</button>
             </form>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function(){
-            $('#checkout-form').submit(function(e){
-                e.preventDefault(); // Mencegah pengiriman formulir secara default
-    
-                // Mengambil data pembelian dari formulir
+            $('#checkout-btn').click(function(){
                 var cartData = [];
                 $('.produk-item').each(function(){
                     var productId = $(this).data('id');
@@ -65,13 +67,15 @@
                     cartData.push(item);
                 });
     
-                // Mengirim data pembelian ke controller Laravel melalui AJAX
+                var diskonValue = parseFloat($('#diskon').val());
+    
                 $.ajax({
                     type: "POST",
                     url: "{{ route('kasir.checkout') }}",
                     data: {
                         "_token": "{{ csrf_token() }}",
-                        "cartData": cartData
+                        "cartData": cartData,
+                        "diskon": diskonValue
                     },
                     success: function(response){
                         // Handle kesuksesan, misalnya, tampilkan pesan sukses dan muat ulang halaman

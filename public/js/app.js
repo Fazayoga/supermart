@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Keranjang belanja
     const cartItems = document.getElementById('cart-items');
     const totalElement = document.getElementById('total');
+    const diskonSelect = document.getElementById('diskon');
     let cartTotal = 0;
 
     // Tambahkan event listener untuk setiap produk
@@ -43,12 +44,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 quantityElement.textContent = '1';
                 listItem.appendChild(quantityElement);
 
+                cartItems.appendChild(listItem);
+
                 // Tambahkan tombol hapus
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Hapus';
                 deleteButton.addEventListener('click', function () {
                     listItem.remove();
                     updateTotal();
+                    updateTotalWithDiskon(); // Perbarui total dengan diskon setelah menghapus item
                 });
                 listItem.appendChild(deleteButton);
                 
@@ -63,62 +67,20 @@ document.addEventListener('DOMContentLoaded', function () {
                         quantity -= 1;
                         quantityElement.textContent = quantity;
                         updateTotal();
+                        updateTotalWithDiskon(); // Perbarui total dengan diskon setelah mengurangi item
                     } else { 
                         listItem.remove();
                         updateTotal();
+                        updateTotalWithDiskon(); // Perbarui total dengan diskon setelah mengurangi item
                     }
                 });
                 listItem.appendChild(decreaseButton);
-
-                cartItems.appendChild(listItem);
             }
 
             // Perbarui total
             cartTotal += productPrice;
             totalElement.textContent = cartTotal.toFixed(2);
-        });
-    });
-
-    // Checkout product
-    const checkoutBtn = document.getElementById('checkout-btn');
-
-    checkoutBtn.addEventListener('click', function () {
-        const cartItems = document.getElementById('cart-items');
-        const cartData = [];
-
-        cartItems.querySelectorAll('li').forEach(item => {
-            const productId = item.getAttribute('data-id');
-            const productName = item.textContent.trim();
-            const productPrice = parseFloat(item.getAttribute('data-harga'));
-            const quantity = parseInt(item.querySelector('.quantity').textContent);
-
-            cartData.push({
-                barang_id: productId,
-                nama_produk: productName,
-                harga: productPrice,
-                jumlah_produk: quantity
-            });
-        });
-
-        // Kirim data pembelian ke fungsi checkout melalui AJAX
-        fetch('{{ route("kasir.checkout") }}', { 
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ cartData: cartData })
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Transaksi berhasil');
-                window.location.href = '{{ route("kasir.index") }}';
-            } else {
-                console.error('Transaksi gagal');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
+            updateTotalWithDiskon(); // Perbarui total dengan diskon setelah menambahkan item
         });
     });
 
@@ -131,4 +93,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 0);
         totalElement.textContent = cartTotal.toFixed(2);
     }
+
+    // Fungsi untuk memperbarui total dengan diskon
+    $('#diskon').change(function () {
+        var diskonValue = parseFloat($(this).val()); // Ambil nilai diskon yang dipilih
+        var subtotal = parseFloat($('#total').text()); // Ambil subtotal dari total belanja
+
+        if (!isNaN(diskonValue)) { // Periksa apakah diskon dipilih
+            // Hitung total belanja setelah diskon
+            var totalWithDiscount = subtotal - (subtotal * (diskonValue / 100));
+
+            // Tampilkan total belanja setelah diskon
+            $('#total').text(totalWithDiscount.toFixed(2));
+        } else {
+            // Jika diskon tidak dipilih, tampilkan total belanja tanpa diskon
+            $('#total').text(subtotal.toFixed(2));
+        }
+    });
 });
