@@ -36,7 +36,7 @@
                     <select id="diskon" name="diskon"> <!-- Tambahkan name="diskon" di sini -->
                         <option value="">Tidak Ada Diskon</option>
                         @foreach($diskon as $discount)
-                            <option value="{{ $discount->id }}">{{ $discount->nama }}</option> <!-- Ubah value menjadi ID diskon -->
+                            <option value="{{ $discount->besar_diskon }}">{{ $discount->nama }}</option> <!-- Ubah value menjadi ID diskon -->
                         @endforeach
                     </select>
                 </div>
@@ -79,7 +79,7 @@
                 updateTotalWithDiskon();
             });
 
-            $('#diskon').change(function () {
+            $('#besar_diskon').change(function () {
                 updateTotalWithDiskon();
             });
 
@@ -107,7 +107,7 @@
                     data: {
                         "_token": "{{ csrf_token() }}",
                         "cartData": cartData,
-                        "diskon": $('#diskon').val() 
+                        "diskon": $('#besar_diskon').val() 
                     },
                     success: function(response){
                         alert("Transaksi berhasil!");
@@ -129,7 +129,7 @@
                 $('#total').text(cartTotal.toFixed(2));
             }
 
-            $('#diskon').change(function () {
+            $('#besar_diskon').change(function () {
                 var diskonValue = parseFloat($(this).val()); // Ambil nilai diskon yang dipilih
                 var subtotal = parseFloat($('#total').text()); // Ambil subtotal dari total belanja
 

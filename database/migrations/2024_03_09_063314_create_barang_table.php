@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('stok')->nullable();
             $table->decimal('harga', 10, 2)->nullable();
             $table->date('tanggal_exp')->nullable();
+            $table->boolean('expired')->default(false);
             $table->timestamps();
         });
     }

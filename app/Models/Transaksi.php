@@ -20,6 +20,6 @@ class Transaksi extends Model
 
     public function diskon()
     {
-        return $this->belongsTo(Diskon::class);
+        return $this->belongsTo(Diskon::class, 'diskon_id');
     }
 }

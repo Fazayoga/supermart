@@ -28,7 +28,6 @@
                     <ul>
                         <li><a href="{{ route('index') }}">Home</a></li>
                         <li><a href="{{ route('kasir.index') }}">Kasir</a></li>
-                        <li><a href="{{ route('cashier.index') }}">Cashier</a></li>
                         <li><a href="{{ route('diskon.index') }}">Data Diskon</a></li>
                         <li><a href="{{ route('barang.index') }}">Data Barang</a></li>
                         <li><a href="{{ route('transaksi.index') }}">Data Transaksi</a></li>

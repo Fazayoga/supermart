@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Barang;
 use App\Models\BarangExp;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class CheckExpiredItems extends Command
 {
@@ -14,12 +16,23 @@ class CheckExpiredItems extends Command
 
     public function handle()
     {
-        // Mendapatkan barang yang sudah expired
-        $barang_exp = Barang::whereDate('tanggal_exp', '<', now())->get();
+        // Get expired items
+        $expiredItems = Barang::whereDate('tanggal_exp', '<', now())->get();
 
-        // Memindahkan barang yang sudah expired ke barang_exp
-        foreach ($barang_exp as $item) {
+        // Move expired items to barang_exp
+        foreach ($expiredItems as $item) {
+            // Move image if exists
+            if ($item->gambar) {
+                // Generate new path for the image in barang_exp folder
+                $newImagePath = 'barang_exp/' . basename($item->gambar);
+
+                // Copy the image to barang_exp folder
+                Storage::copy($item->gambar, $newImagePath);
+            }
+
+            // Create new record in barang_exp table
             BarangExp::create([
+                'gambar' => isset($newImagePath) ? $newImagePath : null,
                 'nama' => $item->nama,
                 'category' => $item->category,
                 'stok' => $item->stok,
@@ -27,9 +40,11 @@ class CheckExpiredItems extends Command
                 'tanggal_exp' => $item->tanggal_exp,
             ]);
 
-            $item->delete(); // Menghapus barang dari tabel barang
+            // Delete the item from barang table
+            $item->delete();
         }
 
-        $this->info('Expired items checked and moved successfully.');
+        // Display success message
+        $this->info(count($expiredItems) . ' expired items checked and moved successfully.');
     }
 }

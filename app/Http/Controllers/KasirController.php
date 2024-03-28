@@ -22,7 +22,6 @@ class KasirController extends Controller
         $cartItems = $request->cartData;
         $diskonValue = $request->diskon;
         $totalAmount = 0;
-        $totalWithDiskon = 0; // Total dengan diskon
         
         // Menghitung total belanja sebelum diskon
         foreach ($cartItems as $item) {
@@ -31,11 +30,9 @@ class KasirController extends Controller
         }
         
         // Menghitung total belanja setelah diskon
+        $totalWithDiskon = $totalAmount;
         if ($diskonValue) {
             $totalWithDiskon = $totalAmount - ($totalAmount * ($diskonValue / 100));
-        } else {
-            // Jika diskon tidak ada, total dengan diskon tetap sama dengan total sebelumnya
-            $totalWithDiskon = $totalAmount;
         }
         
         // Proses checkout dan simpan transaksi
@@ -45,14 +42,17 @@ class KasirController extends Controller
                 $barang->stok -= $item['jumlah_produk'];
                 $barang->save();
                 // Simpan transaksi dengan total yang sudah dihitung dengan diskon
+                $totalItem = $barang->harga * $item['jumlah_produk'];
+                $diskonItem = $diskonValue ? $totalItem * ($diskonValue / 100) : 0;
+                $totalItemWithDiskon = $totalItem - $diskonItem;
                 Transaksi::create([
                     'barang_id' => $barang->id,
                     'nama_barang' => $barang->nama,
                     'harga' => $barang->harga,
                     'quantity' => $item['jumlah_produk'],
-                    'total_amount' => $barang->harga * $item['jumlah_produk'],
-                    'diskon_id' => $diskonValue, // Simpan ID diskon, jika ada
-                    'total_with_diskon' => $totalWithDiskon
+                    'total_amount' => $totalItem,
+                    'diskon_id' => $diskonValue, 
+                    'total_with_diskon' => $totalItemWithDiskon
                 ]);
             } else {
                 return response()->json(['error' => 'Stok barang ' . $barang->nama . ' tidak mencukupi.']);
@@ -60,7 +60,7 @@ class KasirController extends Controller
         }
         
         return response()->json(['success' => 'Checkout berhasil.']);
-    }        
+    }
 
     public function pembelian()
     {

@@ -5,7 +5,7 @@
     <table>
         <thead>
             <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>Nama Diskon</th>
                 <th>Besar Diskon (%)</th>
             </tr>
@@ -13,7 +13,7 @@
         <tbody>
             @foreach ($diskon as $index => $item)
                 <tr>
-                    <td>{{ $index + 1 }}</td>
+                    <td style="width: 50px;">{{ $index + 1 }}</td>
                     <td>{{ $item->nama }}</td>
                     <td>{{ $item->besar_diskon }}%</td>
                 </tr>
