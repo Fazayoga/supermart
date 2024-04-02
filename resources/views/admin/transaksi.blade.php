@@ -38,8 +38,7 @@
                 </tr>
             @endforeach
             <tr>
-                <td colspan="2">Jumlah Keseluruhan</td>
-                <td><strong>Rp. {{ number_format($totalHarga, 0, ',', '.') }}</strong></td>
+                <td colspan="3">Jumlah Keseluruhan</td>
                 <td>{{ $totalQuantity }}</td> <!-- Tampilkan totalQuantity -->
                 <td></td>
                 <td><strong>Rp. {{ number_format($grandTotal, 0, ',', '.') }}</strong></td> <!-- Tampilkan grandTotal -->

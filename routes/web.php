@@ -7,7 +7,7 @@ use App\Http\Controllers\KasirController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\BarangExpController;
 use App\Http\Controllers\DiskonController;
-use App\Http\Controllers\CashierController;
+use App\Http\Controllers\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +24,9 @@ Route::get('/index', function () {
     return view('admin.index');
 })->name('index');
 
-Route::get('/member', function () {
-    return view('admin.member');
-})->name('member');
+// Route::get('/member', function () {
+//     return view('admin.member');
+// })->name('member');
 
 Route::get('/barang_exp', function () {
     return view('admin.barang_exp');
@@ -57,3 +57,10 @@ Route::post('/diskon', [DiskonController::class, 'store'])->name('diskon.store')
 Route::get('/diskon/{id}/edit', [DiskonController::class, 'edit'])->name('diskon.edit');
 Route::put('/diskon/{id}', [DiskonController::class, 'update'])->name('diskon.update');
 Route::delete('/diskon/{id}', [DiskonController::class, 'destroy'])->name('diskon.destroy');
+
+Route::get('/member', [MemberController::class, 'index'])->name('member.index');
+Route::get('/member/create', [MemberController::class, 'create'])->name('member.create');
+Route::post('/member/store', [MemberController::class, 'store'])->name('member.store');
+Route::get('/member/{id}/edit', [MemberController::class, 'edit'])->name('member.edit');
+Route::put('/member/{id}', [MemberController::class, 'update'])->name('member.update');
+Route::delete('/member/{id}', [MemberController::class, 'destroy'])->name('member.destroy');

@@ -31,7 +31,7 @@
                         <li><a href="{{ route('diskon.index') }}">Data Diskon</a></li>
                         <li><a href="{{ route('barang.index') }}">Data Barang</a></li>
                         <li><a href="{{ route('transaksi.index') }}">Data Transaksi</a></li>
-                        <li><a href="{{ route('member') }}">Data Member</a></li>
+                        <li><a href="{{ route('member.index') }}">Data Member</a></li>
                         <li><a href="{{ route('barangexp.index') }}">Data Barang Exp</a></li>
                         <li><a href="#">Login</a></li>
                     </ul>

@@ -24,8 +24,7 @@
                     <td>{{ $item->tanggal_exp }}</td>
                     <td>{{ number_format($item->harga, 0, ',', '.') }}</td>
                     <td>
-                        <a href="{{ route('barang.edit', ['id' => $item->id]) }}" class="btn btn-edit">Edit</a>
-                        |
+                        <a href="{{ route('barang.edit', ['id' => $item->id]) }}" class="btn btn-edit">Edit</a> |
                         <form action="{{ route('barang.destroy', ['id' => $item->id]) }}" method="post" style="display: inline;">
                             @csrf
                             @method('DELETE')
