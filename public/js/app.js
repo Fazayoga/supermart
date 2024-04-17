@@ -105,17 +105,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Fungsi untuk memperbarui total dengan diskon
     diskonSelect.addEventListener('change', function () {
-        var diskonValue = parseFloat(this.value); // Ambil nilai diskon yang dipilih
-        var subtotal = parseFloat(totalElement.textContent); // Ambil subtotal dari total belanja
-
-        if (!isNaN(diskonValue)) { // Periksa apakah diskon dipilih
-            // Hitung total belanja setelah diskon
+        var subtotal = parseFloat(totalElement.textContent);
+        var diskonValue = parseFloat($('#diskon option:selected').data('besar-diskon'));
+    
+        if (!isNaN(diskonValue)) {
             var totalWithDiscount = subtotal - (subtotal * (diskonValue / 100));
-
-            // Tampilkan total belanja setelah diskon
             totalElement.textContent = totalWithDiscount.toFixed(2);
         } else {
-            // Jika diskon tidak dipilih, tampilkan total belanja tanpa diskon
             totalElement.textContent = subtotal.toFixed(2);
         }
     });

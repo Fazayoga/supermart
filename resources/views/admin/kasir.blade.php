@@ -33,12 +33,12 @@
                 </div>
                 <div id="diskon-container">
                     <label for="diskon">Diskon (%):</label>
-                    <select id="diskon" name="diskon"> <!-- Tambahkan name="diskon" di sini -->
+                    <select id="diskon" name="diskon">
                         <option value="">Tidak Ada Diskon</option>
                         @foreach($diskon as $discount)
-                            <option value="{{ $discount->id }}">{{ $discount->nama }}</option> <!-- Gunakan besar_diskon sebagai nilai diskon -->
+                            <option value="{{ $discount->id }}" data-besar-diskon="{{ $discount->besar_diskon }}">{{ $discount->nama }}</option>
                         @endforeach
-                    </select>
+                    </select>                    
                 </div>                
                 <p>Total: Rp. <span id="total">0.00</span></p>
                 <button type="button" id="checkout-btn" class="checkout">Checkout</button>
