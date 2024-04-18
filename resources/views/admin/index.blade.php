@@ -1,6 +1,7 @@
 @extends('mainlayout')
 
 @section('maincontent')
-    <h2>Selamat datang di Website MAMTQ</h2>
-    
+    @auth('admin')
+    <h2>Selamat datang <u><strong>{{ auth('admin')->user()->name }}</strong></u> di Website MAMTQ</h2>
+    @endauth
 @endsection

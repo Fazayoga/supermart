@@ -22,11 +22,12 @@
                     <input type="text" placeholder="Cari...">
                     <button>Cari</button>
                 </div>
+                <button id="menu-toggle">&#9776;</button>
             </div>
             <nav>
                 <ul>
                     <ul>
-                        <li><a href="{{ route('home.index') }}">Home</a></li>
+                        <li><a href="{{ route('home') }}">Home</a></li>
                         <div class="category-dropdown">
                             <a href="#">Category</a>
                             <div class="category-dropdown-content">
@@ -38,7 +39,19 @@
                         </div>
                         <li><a href="">Cek Point</a></li>
                         <li><a href="">Keranjang</a></li>
-                        <li><a href="#">Login</a></li>
+                        <li><a href="">Profil</a></li>
+                        @auth('web')
+                            <!-- Tampilan untuk pengguna yang sudah login -->
+                            <li>
+                                <form id="logout-form" method="POST" action="{{ route('logout-user') }}">
+                                    @csrf
+                                    <button type="submit">Logout</button>
+                                </form>
+                            </li>
+                        @else
+                            <!-- Tampilan untuk pengguna yang belum login -->
+                            <li><a href="{{ asset('login') }}">Login</a></li>
+                        @endauth
                     </ul>
                 </ul>
             </nav>

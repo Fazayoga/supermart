@@ -82,6 +82,20 @@ button {
     margin-left: 60px;
 }
 
+button[type="submit"] {
+    font-size: 20px;
+    background: none; 
+    border: none; 
+    padding: 0; 
+    cursor: pointer; 
+    color: white; 
+    font-weight: bold;
+}
+
+button[type="submit"]:hover {
+    text-decoration: underline;
+}
+
 nav {
     background-color: #3498db;
     color: #fff;
@@ -239,4 +253,63 @@ footer {
     position: static;
     bottom: 0;
     width: 1449px;
+}
+
+@media screen and (min-width: 768px) {
+    #menu-toggle {
+        display: none; 
+    }
+    
+    nav ul {
+        display: block; /* Tampilkan daftar menu secara vertikal */
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    nav ul li {
+        display: inline-block; /* Tampilkan setiap item menu secara horizontal */
+        margin-right: 10px; /* Beri jarak antar item menu */
+    }
+
+    nav ul li:last-child {
+        margin-right: 0; /* Hapus margin kanan dari item menu terakhir */
+    }
+
+    nav ul li a {
+        padding: 10px 15px; /* Beri ruang di sekitar teks menu */
+    }
+
+    .category-dropdown-content {
+        min-width: 160px; /* Sesuaikan lebar dropdown */
+    }
+}
+
+
+@media screen and (max-width: 767px) {
+    .checkout {
+        width: 50%; /* Atur lebar menjadi 100% untuk tampilan mobile */
+        display: none;
+
+    }
+
+    nav ul {
+        display: none; /* Sembunyikan daftar menu */
+    }
+
+    .category-dropdown {
+        display: block; /* Tampilkan dropdown */
+    }
+
+    .category-dropdown-content {
+        display: none; /* Sembunyikan konten dropdown */
+    }
+
+    .category-dropdown:hover .category-dropdown-content {
+        display: block; /* Tampilkan konten dropdown saat tombol dihover */
+    }
+
+    .category-dropdown-content a {
+        display: none;
+    }
 }

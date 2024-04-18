@@ -103,16 +103,30 @@ document.addEventListener('DOMContentLoaded', function () {
         totalElement.textContent = cartTotal.toFixed(2);
     }
 
-    // Fungsi untuk memperbarui total dengan diskon
     diskonSelect.addEventListener('change', function () {
-        var subtotal = parseFloat(totalElement.textContent);
+        updateTotalWithDiskon(); // Perbarui total dengan diskon saat opsi diskon berubah
+    });
+
+    // Fungsi untuk memperbarui total dengan diskon
+    function updateTotalWithDiskon() {
+        var subtotal = parseFloat(cartTotal); // Mengambil total sebelum diskon
         var diskonValue = parseFloat($('#diskon option:selected').data('besar-diskon'));
-    
+
         if (!isNaN(diskonValue)) {
             var totalWithDiscount = subtotal - (subtotal * (diskonValue / 100));
             totalElement.textContent = totalWithDiscount.toFixed(2);
         } else {
             totalElement.textContent = subtotal.toFixed(2);
         }
-    });
+    }
+});
+
+// Ambil elemen tombol menu dan daftar menu
+const menuToggle = document.getElementById('menu-toggle');
+const navMenu = document.querySelector('nav ul');
+
+// Tambahkan event listener untuk tombol menu
+menuToggle.addEventListener('click', function() {
+    // Toggle class 'active' pada daftar menu untuk menampilkan atau menyembunyikan daftar menu
+    navMenu.classList.toggle('active');
 });

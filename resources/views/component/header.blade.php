@@ -22,18 +22,36 @@
                     <input type="text" placeholder="Cari...">
                     <button>Cari</button>
                 </div>
+                <button id="menu-toggle">&#9776;</button>
             </div>
             <nav>
                 <ul>
                     <ul>
                         <li><a href="{{ route('index') }}">Home</a></li>
                         <li><a href="{{ route('kasir.index') }}">Kasir</a></li>
-                        <li><a href="{{ route('diskon.index') }}">Data Diskon</a></li>
-                        <li><a href="{{ route('barang.index') }}">Data Barang</a></li>
-                        <li><a href="{{ route('transaksi.index') }}">Data Transaksi</a></li>
-                        <li><a href="{{ route('member.index') }}">Data Member</a></li>
-                        <li><a href="{{ route('barangexp.index') }}">Data Barang Exp</a></li>
-                        <li><a href="#">Login</a></li>
+                        <div class="category-dropdown">
+                            <a href="#">Data Master</a>
+                            <div class="category-dropdown-content">
+                                    <a href="{{ route('diskon.index') }}">Data Diskon</a>
+                                    <a href="{{ route('barang.index') }}">Data Barang</a>
+                                    <a href="{{ route('transaksi.index') }}">Data Transaksi</a>
+                                    <a href="{{ route('member.index') }}">Data Member</a>
+                                    <a href="{{ route('barangexp.index') }}">Data Barang Exp</a>
+                            </div>
+                        </div>
+                        <li><a href="{{ route('admin.profil') }}">Profil</a></li>
+                        @auth('admin')
+                            <!-- Tampilan untuk pengguna yang sudah login -->
+                            <li>
+                                <form method="POST" action="{{ route('logout-admin') }}">
+                                    @csrf
+                                    <button type="submit">Logout</button>
+                                </form>
+                            </li>
+                        @else
+                            <!-- Tampilan untuk pengguna yang belum login -->
+                            <li><a href="{{ asset('login-admin') }}">Login</a></li>
+                        @endauth
                     </ul>
                 </ul>
             </nav>
