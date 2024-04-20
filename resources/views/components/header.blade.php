@@ -17,7 +17,7 @@
         </div>
         <div class="right-section">
             <div class="search-container">
-                <h3>Membership</h3>
+                <a href="{{ route('membership.index') }}"><h3>Membership</h3></a>
                 <div class="button-container">
                     <input type="text" placeholder="Cari...">
                     <button>Cari</button>
@@ -37,20 +37,20 @@
                                 <a href="#" class="filter-category" data-category="Sampo">Sampo</a>
                             </div>
                         </div>
-                        <li><a href="">Cek Point</a></li>
+                        <li><a href="{{ route('membership.point') }}">Cek Point</a></li>
                         <li><a href="">Keranjang</a></li>
-                        <li><a href="">Profil</a></li>
+                        <li><a href="{{ route('user.profil') }}">Profil</a></li>
                         @auth('web')
                             <!-- Tampilan untuk pengguna yang sudah login -->
                             <li>
                                 <form id="logout-form" method="POST" action="{{ route('logout-user') }}">
                                     @csrf
-                                    <button type="submit">Logout</button>
+                                    <button class="submit" type="submit">Logout</button>
                                 </form>
                             </li>
                         @else
                             <!-- Tampilan untuk pengguna yang belum login -->
-                            <li><a href="{{ asset('login') }}">Login</a></li>
+                            <li><a href="{{ asset('login-user') }}">Login</a></li>
                         @endauth
                     </ul>
                 </ul>

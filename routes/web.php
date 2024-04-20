@@ -8,8 +8,12 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DiskonController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\BarangExpController;
+use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,11 +30,15 @@ use App\Http\Controllers\BarangExpController;
 //     return view('admin.index');
 // })->name('index');
 
+// Route::get('/', function () {
+//     return view('homepage.home');
+// })->name('homepage');
+
 // Route::get('/member', function () {
 //     return view('admin.member');
 // })->name('member');
 
-// Route::get('/home', [HomeController::class, 'index'])->name('home.index');
+Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 
 Route::get('/barang_exp', function () {
     return view('admin.barang_exp');
@@ -69,23 +77,24 @@ Route::get('/member/{id}/edit', [MemberController::class, 'edit'])->name('member
 Route::put('/member/{id}', [MemberController::class, 'update'])->name('member.update');
 Route::delete('/member/{id}', [MemberController::class, 'destroy'])->name('member.destroy');
 
-Route::get('/profil', [AdminController::class, 'profil'])->name('admin.profil');
+// Admin Routes
+Route::get('/profil-admin', [AdminController::class, 'profil'])->name('admin.profil');
 Route::get('/edit-admin', [AdminController::class, 'edit'])->name('admin.edit_admin');
 Route::patch('/update-admin', [AdminController::class, 'updateProfile'])->name('admin.updateProfile');
 
-// Authentication Routes
-Route::get('/login-admin', [AuthController::class, 'showLoginAdmin'])->name('loginAdmin');
-Route::post('/login-admin', [AuthController::class, 'login']);
-Route::get('/register-admin', [AuthController::class, 'showRegistrationAdmin'])->name('register');
-Route::post('/register-admin', [AuthController::class, 'registerAdmin']);
-Route::post('/logout-admin', [AuthController::class, 'logoutAdmin'])->name('logout-admin');
+// User Routes
+Route::get('/profil-user', [UserController::class, 'profil'])->name('user.profil');
+Route::get('/edit-user', [UserController::class, 'edit'])->name('user.edit_user');
+Route::patch('/update-user', [UserController::class, 'updateProfile'])->name('user.updateProfile');
 
-// Authentication Routes
-Route::get('/login-user', [AuthController::class, 'showLoginUser'])->name('loginUser');
-Route::post('/login-user', [AuthController::class, 'login']);
-Route::get('/register-user', [AuthController::class, 'showRegistrationUser'])->name('register');
-Route::post('/register-user', [AuthController::class, 'registerUser']);
-Route::post('/logout-user', [AuthController::class, 'logoutUser'])->name('logout-user');
+// Memberships Routes
+Route::get('/membership', [MembershipController::class, 'index'])->name('membership.index');
+Route::get('/point', [MembershipController::class, 'point'])->name('membership.point');
+Route::get('/membership/create', [MembershipController::class, 'create'])->name('membership.create');
+Route::post('/membership/store', [MembershipController::class, 'store'])->name('membership.store');
+Route::get('/membership/{id}/edit', [MembershipController::class, 'edit'])->name('membership.edit');
+Route::put('/membership/{id}', [MembershipController::class, 'update'])->name('membership.update');
+Route::delete('/membership/{id}', [MembershipController::class, 'destroy'])->name('membership.destroy');
 
 Route::middleware('auth:admin')->group(function () {
     // Rute yang memerlukan autentikasi admin
@@ -98,3 +107,20 @@ Route::middleware('auth:web')->group(function () {
     // Rute yang memerlukan autentikasi user
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
+
+// Admin Authentication Routes
+Route::get('/login-admin', [AdminAuthController::class, 'showLoginForm'])->name('auth.login_admin');
+Route::post('/login-admin', [AdminAuthController::class, 'login']);
+Route::post('/logout-admin', [AdminAuthController::class, 'logout'])->name('logout-admin');
+Route::get('/register-admin', [AdminAuthController::class, 'showRegistrationAdmin'])->name('register-admin');
+Route::post('/register-admin', [AdminAuthController::class, 'registerAdmin']);
+
+// User Authentication Routes
+Route::get('/login-user', [UserAuthController::class, 'showLoginForm'])->name('auth.login_user');
+Route::post('/login-user', [UserAuthController::class, 'login']);
+Route::post('/logout-user', [UserAuthController::class, 'logout'])->name('logout-user');
+Route::get('/register-user', [UserAuthController::class, 'showRegistrationUser'])->name('register-user');
+Route::post('/register-user', [UserAuthController::class, 'registerUser']);
+
+
+

@@ -11,10 +11,10 @@ class Member extends Model
 
     protected $table = 'member';
 
-    protected $fillable = [
-        'nama',
-        'alamat',
-        'no_telp',
-        'point',
-    ];
+    protected $fillable = ['users_id', 'nama', 'alamat' ,'no_telp', 'point'];
+
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

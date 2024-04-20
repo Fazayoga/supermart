@@ -15,11 +15,15 @@ return new class extends Migration
     {
         Schema::create('member', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('users_id');
             $table->string('nama')->nullable();
             $table->string('alamat')->nullable();
             $table->string('no_telp')->nullable();
-            $table->integer('point')->default(0); // Anda mungkin ingin menetapkan nilai default untuk 'point'
+            $table->integer('point')->default(0); 
             $table->timestamps();
+
+            // Menambahkan foreign key constraint
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

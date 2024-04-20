@@ -82,7 +82,7 @@ button {
     margin-left: 60px;
 }
 
-button[type="submit"] {
+.submit {
     font-size: 20px;
     background: none; 
     border: none; 
@@ -92,7 +92,7 @@ button[type="submit"] {
     font-weight: bold;
 }
 
-button[type="submit"]:hover {
+.submit[type="submit"]:hover {
     text-decoration: underline;
 }
 
@@ -256,6 +256,7 @@ h2{
     margin-left: 0;
     margin-bottom: 100px;
 }
+
 .form-container {
     max-width: 400px;
     padding: 20px;
@@ -562,6 +563,7 @@ footer {
     .category-dropdown-content {
         min-width: 160px; /* Sesuaikan lebar dropdown */
     }
+    
 }
 
 
