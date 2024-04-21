@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\AdminController;
@@ -12,8 +12,8 @@ use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\BarangExpController;
+use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\MembershipController;
-use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +38,7 @@ use App\Http\Controllers\UserController;
 //     return view('admin.member');
 // })->name('member');
 
-Route::get('/home', [HomeController::class, 'index'])->name('home.index');
+// Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 
 Route::get('/barang_exp', function () {
     return view('admin.barang_exp');
@@ -77,35 +77,39 @@ Route::get('/member/{id}/edit', [MemberController::class, 'edit'])->name('member
 Route::put('/member/{id}', [MemberController::class, 'update'])->name('member.update');
 Route::delete('/member/{id}', [MemberController::class, 'destroy'])->name('member.destroy');
 
-// Admin Routes
-Route::get('/profil-admin', [AdminController::class, 'profil'])->name('admin.profil');
-Route::get('/edit-admin', [AdminController::class, 'edit'])->name('admin.edit_admin');
-Route::patch('/update-admin', [AdminController::class, 'updateProfile'])->name('admin.updateProfile');
-
-// User Routes
-Route::get('/profil-user', [UserController::class, 'profil'])->name('user.profil');
-Route::get('/edit-user', [UserController::class, 'edit'])->name('user.edit_user');
-Route::patch('/update-user', [UserController::class, 'updateProfile'])->name('user.updateProfile');
-
-// Memberships Routes
-Route::get('/membership', [MembershipController::class, 'index'])->name('membership.index');
-Route::get('/point', [MembershipController::class, 'point'])->name('membership.point');
-Route::get('/membership/create', [MembershipController::class, 'create'])->name('membership.create');
-Route::post('/membership/store', [MembershipController::class, 'store'])->name('membership.store');
-Route::get('/membership/{id}/edit', [MembershipController::class, 'edit'])->name('membership.edit');
-Route::put('/membership/{id}', [MembershipController::class, 'update'])->name('membership.update');
-Route::delete('/membership/{id}', [MembershipController::class, 'destroy'])->name('membership.destroy');
+Route::get('/keranjang', [KeranjangController::class, 'viewCart'])->name('keranjang.index');
+Route::post('/keranjang/add', [KeranjangController::class, 'addToCart'])->name('keranjang.add');
+Route::post('/keranjang/checkout', [KeranjangController::class, 'checkout'])->name('keranjang.checkout');
 
 Route::middleware('auth:admin')->group(function () {
     // Rute yang memerlukan autentikasi admin
     Route::get('/index', function () {
         return view('admin.index');
     })->name('index');
+
+    // Admin Routes
+    Route::get('/profil-admin', [AdminController::class, 'profil'])->name('admin.profil');
+    Route::get('/edit-admin', [AdminController::class, 'edit'])->name('admin.edit_admin');
+    Route::patch('/update-admin', [AdminController::class, 'updateProfile'])->name('admin.updateProfile');
 });
 
 Route::middleware('auth:web')->group(function () {
     // Rute yang memerlukan autentikasi user
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    // User Routes
+    Route::get('/profil-user', [UserController::class, 'profil'])->name('user.profil');
+    Route::get('/edit-user', [UserController::class, 'edit'])->name('user.edit_user');
+    Route::patch('/update-user', [UserController::class, 'updateProfile'])->name('user.updateProfile');
+
+    // Memberships Routes
+    Route::get('/membership', [MembershipController::class, 'index'])->name('membership.index');
+    Route::get('/point', [MembershipController::class, 'point'])->name('membership.point');
+    Route::get('/membership/create', [MembershipController::class, 'create'])->name('membership.create');
+    Route::post('/membership/store', [MembershipController::class, 'store'])->name('membership.store');
+    Route::get('/membership/{id}/edit', [MembershipController::class, 'edit'])->name('membership.edit');
+    Route::put('/membership/{id}', [MembershipController::class, 'update'])->name('membership.update');
+    Route::delete('/membership/{id}', [MembershipController::class, 'destroy'])->name('membership.destroy');
 });
 
 // Admin Authentication Routes

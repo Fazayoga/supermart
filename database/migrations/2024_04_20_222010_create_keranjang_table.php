@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaksi', function (Blueprint $table) {
+        Schema::create('keranjang', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('users_id');
             $table->unsignedBigInteger('barang_id');
-            $table->unsignedBigInteger('diskon_id')->nullable();
             $table->integer('quantity');
             $table->decimal('total_amount', 10, 2);
             $table->timestamps();
 
-            // Menambahkan foreign key constraint
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('barang_id')->references('id')->on('barang')->onDelete('cascade');
-            $table->foreign('diskon_id')->references('id')->on('diskon')->onDelete('set null');
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaksi');
+        Schema::dropIfExists('keranjang');
     }
 };

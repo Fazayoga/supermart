@@ -7,11 +7,13 @@
             <tr>
                 <th>No</th>
                 <th>Nama Barang</th>
-                <th>Harga</th>
                 <th>Jumlah</th>
+                <th>Harga</th>
+                <th>Harga Normal</th>
                 <th>Diskon</th>
                 <th>Total</th>
                 <th>Keterangan Diskon</th>
+                <th>Tanggal Transaksi</th>
             </tr>
         </thead>
         <tbody>
@@ -29,19 +31,24 @@
                 ?>
                 <tr>
                     <td style="width: 45px;">{{ $index + 1 }}</td>
-                    <td>{{ $item->barang->nama }}</td>
-                    <td>Rp. {{ number_format($item->barang->harga, 0, ',', '.') }}</td>
+                    <td style="width: 275px;">{{ $item->barang->nama }}</td>
                     <td>{{ $item->quantity }}</td>
+                    <td>Rp. {{ number_format($item->barang->harga, 0, ',', '.') }}</td>
+                    <td>Rp. {{ number_format($item->barang->harga * $item->quantity, 0, ',', '.') }}</td>
                     <td>{{ $item->diskon ? $item->diskon->besar_diskon . '%' : '-' }}</td>
                     <td>Rp. {{ number_format($subtotal, 0, ',', '.') }}</td> <!-- Tampilkan subtotal setelah diskon -->
                     <td>{{ $item->diskon ? $item->diskon->nama : '-' }}</td>
+                    <td>{{ $item->transaction_date }}</td>
                 </tr>
             @endforeach
             <tr>
-                <td colspan="3">Jumlah Keseluruhan</td>
+                <td colspan="2">Jumlah Keseluruhan</td>
                 <td>{{ $totalQuantity }}</td> <!-- Tampilkan totalQuantity -->
                 <td></td>
+                <td></td>
+                <td></td>
                 <td><strong>Rp. {{ number_format($grandTotal, 0, ',', '.') }}</strong></td> <!-- Tampilkan grandTotal -->
+                <td></td>
                 <td></td>
             </tr>
         </tbody>

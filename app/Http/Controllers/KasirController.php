@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\Transaksi;
 use App\Models\Diskon;
+use Carbon\Carbon;
 
 class KasirController extends Controller
 {
@@ -52,7 +53,8 @@ class KasirController extends Controller
                     'quantity' => $item['jumlah_produk'],
                     'total_amount' => $totalItem,
                     'diskon_id' => $diskonValue, 
-                    'total_with_diskon' => $totalItemWithDiskon
+                    'total_with_diskon' => $totalItemWithDiskon,
+                    'transaction_date' => Carbon::now()->toDateTimeString(),
                 ]);
             } else {
                 return response()->json(['error' => 'Stok barang ' . $barang->nama . ' tidak mencukupi.']);

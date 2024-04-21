@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <li><a href="{{ route('membership.point') }}">Cek Point</a></li>
-                        <li><a href="">Keranjang</a></li>
+                        <li><a href="{{ route('keranjang.index') }}">Keranjang</a></li>
                         <li><a href="{{ route('user.profil') }}">Profil</a></li>
                         @auth('web')
                             <!-- Tampilan untuk pengguna yang sudah login -->

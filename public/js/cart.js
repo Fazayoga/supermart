@@ -20,19 +20,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Fungsi untuk menambahkan produk ke keranjang
     function addToCart(button) {
-        var product = button.dataset.product;
-        var price = button.dataset.price;
+        var nama_produk = button.dataset.nama_produk;
+        var harga = button.dataset.harga;
 
         // Implementasikan logika penambahan ke keranjang di sini
-        console.log('Tambahkan ke keranjang:', product, 'Harga:', price);
+        console.log('Tambahkan ke keranjang:', nama_produk, 'Harga:', harga);
     }
 
     // Fungsi untuk langsung membeli produk
     function buyNow(button) {
-        var product = button.dataset.product;
-        var price = button.dataset.price;
+        var nama_produk = button.dataset.nama_produk;
+        var harga = button.dataset.harga;
 
         // Implementasikan logika pembelian di sini
-        console.log('Beli Sekarang:', product, 'Harga:', price);
+        console.log('Beli Sekarang:', nama_produk, 'Harga:', harga);
     }
+    
 });

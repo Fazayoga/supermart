@@ -36,6 +36,10 @@ header img {
     margin-left: 60px;
 }
 
+h2, p{
+    padding-left: 60px;
+}
+ 
 .container h2 {
     padding: 0;
 }
