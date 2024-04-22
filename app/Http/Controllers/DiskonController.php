@@ -36,7 +36,7 @@ class DiskonController extends Controller
     public function edit($id)
     {
         $diskon = Diskon::find($id);
-        return view('admin.diskon.edit', ['diskon' => $diskon]);
+        return view('admin.edit_diskon', ['diskon' => $diskon]);
     }
 
     public function update(Request $request, $id)

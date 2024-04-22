@@ -69,14 +69,7 @@ Route::get('/diskon/{id}/edit', [DiskonController::class, 'edit'])->name('diskon
 Route::put('/diskon/{id}', [DiskonController::class, 'update'])->name('diskon.update');
 Route::delete('/diskon/{id}', [DiskonController::class, 'destroy'])->name('diskon.destroy');
 
-// Member Routes
-Route::get('/member', [MemberController::class, 'index'])->name('member.index');
-Route::get('/member/create', [MemberController::class, 'create'])->name('member.create');
-Route::post('/member/store', [MemberController::class, 'store'])->name('member.store');
-Route::get('/member/{id}/edit', [MemberController::class, 'edit'])->name('member.edit');
-Route::put('/member/{id}', [MemberController::class, 'update'])->name('member.update');
-Route::delete('/member/{id}', [MemberController::class, 'destroy'])->name('member.destroy');
-
+// Keranjang Routes
 Route::get('/keranjang', [KeranjangController::class, 'viewCart'])->name('keranjang.index');
 Route::post('/keranjang/add', [KeranjangController::class, 'addToCart'])->name('keranjang.add');
 Route::post('/keranjang/checkout', [KeranjangController::class, 'checkout'])->name('keranjang.checkout');
@@ -91,6 +84,14 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/profil-admin', [AdminController::class, 'profil'])->name('admin.profil');
     Route::get('/edit-admin', [AdminController::class, 'edit'])->name('admin.edit_admin');
     Route::patch('/update-admin', [AdminController::class, 'updateProfile'])->name('admin.updateProfile');
+
+    // Member Routes
+    Route::get('/member', [MemberController::class, 'index'])->name('member.index');
+    Route::get('/member/create', [MemberController::class, 'create'])->name('member.create');
+    Route::post('/member/store', [MemberController::class, 'store'])->name('member.store');
+    Route::get('/member/{id}/edit', [MemberController::class, 'edit'])->name('member.edit');
+    Route::put('/member/{id}', [MemberController::class, 'update'])->name('member.update');
+    Route::delete('/member/{id}', [MemberController::class, 'destroy'])->name('member.destroy');
 });
 
 Route::middleware('auth:web')->group(function () {
