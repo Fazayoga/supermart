@@ -11,7 +11,7 @@ class Transaksi extends Model
 
     protected $table = 'transaksi';
 
-    protected $fillable = ['barang_id', 'diskon_id', 'besar_diskon' ,'quantity', 'total_amount', 'transaction_date'];
+    protected $fillable = ['barang_id', 'diskon_id', 'member_id', 'besar_diskon' ,'quantity', 'total_amount', 'transaction_date'];
 
     public function barang()
     {
@@ -21,5 +21,10 @@ class Transaksi extends Model
     public function diskon()
     {
         return $this->belongsTo(Diskon::class);
+    }
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
     }
 }

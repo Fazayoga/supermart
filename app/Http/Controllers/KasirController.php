@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\Transaksi;
 use App\Models\Diskon;
+use App\Models\Member;
 use Carbon\Carbon;
 
 class KasirController extends Controller
@@ -14,14 +15,15 @@ class KasirController extends Controller
     {
         $barang = Barang::all();
         $diskon = Diskon::all();
-
-        return view('admin.kasir', compact('barang', 'diskon'));
+        $members = Member::all();
+        return view('admin.kasir', compact('barang', 'diskon', 'members'));
     }
     
     public function checkout(Request $request)
     {
         $cartItems = $request->cartData;
         $diskonValue = $request->diskon;
+        $memberId = $request->member_id;
         $totalAmount = 0;
         
         // Menghitung total belanja sebelum diskon
@@ -60,8 +62,14 @@ class KasirController extends Controller
                 return response()->json(['error' => 'Stok barang ' . $barang->nama . ' tidak mencukupi.']);
             }
         }
-        
-        return response()->json(['success' => 'Checkout berhasil.']);
+        if ($memberId) {
+        $earnedPoints = floor($totalWithDiskon / 100); // Misalnya, setiap pembelian Rp. 100 mendapatkan 1 poin
+
+        // Update poin member
+        $member = Member::find($memberId);
+        $member->point += $earnedPoints;
+        $member->save();
+        }
     }
 
     public function pembelian()

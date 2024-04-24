@@ -38,9 +38,18 @@
                         @foreach($diskon as $discount)
                             <option value="{{ $discount->id }}" data-besar-diskon="{{ $discount->besar_diskon }}">{{ $discount->nama }}</option>
                         @endforeach
-                    </select>                    
+                    </select>                
+                   
+                    <label for="member">Member :</label>
+                    <select name="member" id="member">
+                        <option value="">Tidak Ada Member</option>
+                        @foreach($members as $member)
+                            <option value="{{ $member->id }}">{{ $member->nama }}</option>
+                        @endforeach
+                    </select>
                 </div>                
                 <p>Total: Rp. <span id="total">0.00</span></p>
+                <p>Point Member: <span id="point">0</span></p>
                 <button type="button" id="checkout-btn" class="checkout">Checkout</button>
             </form>
         </div>
@@ -107,7 +116,9 @@
                     data: {
                         "_token": "{{ csrf_token() }}",
                         "cartData": cartData,
-                        "diskon": $('#diskon').val() 
+                        "diskon": $('#diskon').val(),
+                        "member_id": $('#member').val() 
+
                     },
                     success: function(response){
                         alert("Transaksi berhasil!");

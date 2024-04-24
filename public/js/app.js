@@ -6,7 +6,29 @@ document.addEventListener('DOMContentLoaded', function () {
     const cartItems = document.getElementById('cart-items');
     const totalElement = document.getElementById('total');
     const diskonSelect = document.getElementById('diskon');
+    const pointElement = document.getElementById('point'); // Tambahkan elemen untuk menampilkan point
+    const memberSelect = document.getElementById('member'); // Tambahkan elemen untuk memilih member
+
     let cartTotal = 0;
+
+    // Tambahkan variabel untuk menyimpan total point member
+    let totalPoint = 0;
+
+    // Fungsi untuk menghitung total point
+    function calculatePoint(total) {
+        // Jika total pembelian mencapai 15.000, member mendapatkan 150 point
+        if (total >= 10000 && total < 20000) {
+            return Math.floor(total / 100); // Pembagian total pembelian dengan 100
+        } 
+        // Jika total pembelian mencapai 20.000, member mendapatkan 200 point
+        else if (total >= 20000) {
+            return Math.floor(total / 100); // Pembagian total pembelian dengan 100
+        } 
+        // Jika tidak mencapai syarat pembelian, tidak mendapatkan point
+        else {
+            return 0;
+        }
+    }
 
     // Tambahkan event listener untuk setiap produk
     products.forEach(product => {
@@ -59,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         listItem.remove();
                         updateTotal();
                         updateTotalWithDiskon(); // Perbarui total dengan diskon setelah menghapus item
+                        updatePoint();
                     });
                     listItem.appendChild(deleteButton);
 
@@ -74,10 +97,12 @@ document.addEventListener('DOMContentLoaded', function () {
                             quantityElement.textContent = quantity;
                             updateTotal();
                             updateTotalWithDiskon(); // Perbarui total dengan diskon setelah mengurangi item
+                            updatePoint();
                         } else {
                             listItem.remove();
                             updateTotal();
                             updateTotalWithDiskon(); // Perbarui total dengan diskon setelah mengurangi item
+                            updatePoint();
                         }
                     });
                     listItem.appendChild(decreaseButton);
@@ -86,6 +111,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Perbarui total
                 cartTotal += productPrice * quantity;
                 totalElement.textContent = cartTotal.toFixed(2);
+
+                // Perbarui total point jika member dipilih
+                if (memberSelect.value) {
+                    totalPoint = calculatePoint(cartTotal);
+                    pointElement.textContent = totalPoint; // Tampilkan total point
+                }
+                updateTotal();
                 updateTotalWithDiskon(); // Perbarui total dengan diskon setelah menambahkan item
             } else {
                 alert('Jumlah barang tidak valid. Masukkan angka yang lebih besar dari 0.');
@@ -102,11 +134,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 0);
         totalElement.textContent = cartTotal.toFixed(2);
     }
-
+    
     diskonSelect.addEventListener('change', function () {
         updateTotalWithDiskon(); // Perbarui total dengan diskon saat opsi diskon berubah
+        if (memberSelect.value) {
+            updatePoint(); // Perbarui total point saat diskon berubah jika member dipilih
+        }
     });
-
+    
     // Fungsi untuk memperbarui total dengan diskon
     function updateTotalWithDiskon() {
         var subtotal = parseFloat(cartTotal); // Mengambil total sebelum diskon
@@ -119,14 +154,36 @@ document.addEventListener('DOMContentLoaded', function () {
             totalElement.textContent = subtotal.toFixed(2);
         }
     }
-});
 
-// Ambil elemen tombol menu dan daftar menu
-const menuToggle = document.getElementById('menu-toggle');
-const navMenu = document.querySelector('nav ul');
+    // Fungsi untuk menghitung total point dan menampilkan poin saat memilih atau mengubah member
+    function updatePoint() {
+        // Perbarui total point saat memilih member
+        var subtotal = parseFloat(totalElement.textContent); // Mengambil total setelah diskon
+        totalPoint = calculatePoint(subtotal);
+        pointElement.textContent = totalPoint; // Tampilkan total point
+    }
 
-// Tambahkan event listener untuk tombol menu
-menuToggle.addEventListener('click', function() {
-    // Toggle class 'active' pada daftar menu untuk menampilkan atau menyembunyikan daftar menu
-    navMenu.classList.toggle('active');
+        
+    // Tambahkan event listener untuk perubahan pemilihan member
+    memberSelect.addEventListener('change', function () {
+        if (memberSelect.value) {
+            updatePoint(); // Perbarui total point saat memilih member
+        } else {
+            pointElement.textContent = '0'; // Set point menjadi 0 jika member tidak dipilih
+        }
+        updateTotalWithDiskon(); // Perbarui total dengan diskon saat memilih atau mengubah member
+    });
+
+    // Panggil fungsi updatePoint saat memuat halaman untuk menampilkan nilai poin awal
+    updatePoint();
+
+    // Ambil elemen tombol menu dan daftar menu
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.querySelector('nav ul');
+
+    // Tambahkan event listener untuk tombol menu
+    menuToggle.addEventListener('click', function () {
+        // Toggle class 'active' pada daftar menu untuk menampilkan atau menyembunyikan daftar menu
+        navMenu.classList.toggle('active');
+    });
 });

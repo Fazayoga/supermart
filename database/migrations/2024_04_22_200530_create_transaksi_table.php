@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('barang_id');
             $table->unsignedBigInteger('diskon_id')->nullable();
+            $table->unsignedBigInteger('member_id')->nullable();
             $table->integer('quantity');
             $table->decimal('total_amount', 10, 2);
             $table->timestamp('transaction_date')->useCurrent(); 
@@ -23,6 +24,7 @@ return new class extends Migration
             // Menambahkan foreign key constraint
             $table->foreign('barang_id')->references('id')->on('barang')->onDelete('cascade');
             $table->foreign('diskon_id')->references('id')->on('diskon')->onDelete('set null');
+            $table->foreign('member_id')->references('id')->on('member')->onDelete('set null');
         });
     }
 

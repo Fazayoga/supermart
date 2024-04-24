@@ -4,17 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Barang;
 
 class UserController extends Controller
 {
+    public function profil()
+    {
+        return view('user.profil');
+    }
+
     public function edit()
     {
         return view('user.edit_profil');
     }
 
-    public function profil()
+    public function indexProfil()
     {
-        return view('user.profil');
+        $barang = Barang::all();
+
+        return view('user.profil', ['barang' => $barang]);
+    }
+
+    public function indexProfilEdit()
+    {
+        $barang = Barang::all();
+
+        return view('user.edit_profil', ['barang' => $barang]);
     }
 
     public function updateProfile(Request $request)

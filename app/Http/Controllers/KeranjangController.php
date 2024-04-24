@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\Keranjang;
+use App\Models\Category;
 use App\Models\Transaksi;
 
 class KeranjangController extends Controller

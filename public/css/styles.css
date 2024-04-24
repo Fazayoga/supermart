@@ -15,6 +15,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 header h1{
@@ -334,9 +335,14 @@ h2{
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.produk-item .product h2 {
+.produk-item h2 {
     text-align: left;
     padding-right: 35px;
+}
+
+.produk-item .product h2 {
+    text-align: left;
+    padding-right: 25px;
     padding-left: 0px;
 }
 

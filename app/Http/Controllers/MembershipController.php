@@ -72,7 +72,7 @@ class MembershipController extends Controller
     public function edit($id)
     {
         $member = Member::findOrFail($id);
-        return view('user.edit_member', compact('member'));
+        return view('user.edit_membership', compact('member'));
     }
 
     public function update(Request $request, $id)

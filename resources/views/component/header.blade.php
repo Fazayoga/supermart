@@ -32,11 +32,12 @@
                         <div class="category-dropdown">
                             <a href="#">Data Master</a>
                             <div class="category-dropdown-content">
-                                    <a href="{{ route('diskon.index') }}">Data Diskon</a>
-                                    <a href="{{ route('barang.index') }}">Data Barang</a>
-                                    <a href="{{ route('transaksi.index') }}">Data Transaksi</a>
-                                    <a href="{{ route('member.index') }}">Data Member</a>
-                                    <a href="{{ route('barangexp.index') }}">Data Barang Exp</a>
+                                <a href="{{ route('transaksi.index') }}">Data Transaksi</a>
+                                <a href="{{ route('diskon.index') }}">Data Diskon</a>
+                                <a href="{{ route('barang.index') }}">Data Barang</a>
+                                <a href="{{ route('category.index') }}">Data Category</a>
+                                <a href="{{ route('member.index') }}">Data Member</a>
+                                <a href="{{ route('barangexp.index') }}">Data Barang Exp</a>
                             </div>
                         </div>
                         <li><a href="{{ route('admin.profil') }}">Profil</a></li>

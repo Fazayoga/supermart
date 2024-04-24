@@ -31,10 +31,9 @@
                         <div class="category-dropdown">
                             <a href="#">Category</a>
                             <div class="category-dropdown-content">
-                                <a href="#" class="filter-category" data-category="Makanan">Makanan</a>
-                                <a href="#" class="filter-category" data-category="Minuman">Minuman</a>
-                                <a href="#" class="filter-category" data-category="Sabun">Sabun</a>
-                                <a href="#" class="filter-category" data-category="Sampo">Sampo</a>
+                                @foreach($categories as $category)
+                                    <a href="#" class="filter-category" data-category="{{ $category->id }}">{{ $category->name }}</a>
+                                @endforeach
                             </div>
                         </div>
                         <li><a href="{{ route('membership.point') }}">Cek Point</a></li>

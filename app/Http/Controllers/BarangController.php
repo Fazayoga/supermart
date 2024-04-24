@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Barang;
+use App\Models\Category;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
@@ -33,6 +34,9 @@ class BarangController extends Controller
             'tanggal_exp' => 'required|date_format:Y-m-d',
         ]);
 
+        // Temukan atau buat kategori baru
+        $category = Category::firstOrCreate(['name' => $request->category]);
+
         if ($request->hasFile('gambar')) {
             $image = $request->file('gambar');
             $imageName = time().'.'.$image->extension();
@@ -42,7 +46,9 @@ class BarangController extends Controller
             Barang::create([
                 'gambar' => 'images/' . $imageName,
                 'nama' => $request->nama,
-                'category' => $request->category,
+                'category_id' => $category->id,
+                // Sisipkan kategori saat menyimpan barang
+                'category' => $category,
                 'stok' => $request->stok,
                 'harga' => $request->harga,
                 'tanggal_exp' => $request->tanggal_exp,
@@ -76,6 +82,9 @@ class BarangController extends Controller
         // Temukan data barang
         $barang = Barang::find($id);
     
+        // Temukan atau buat kategori baru
+        $category = Category::firstOrCreate(['name' => $request->category]);
+
         // Cek apakah gambar baru diunggah atau tidak
         if ($request->hasFile('gambar')) {
             // Validasi gambar
@@ -98,7 +107,7 @@ class BarangController extends Controller
         // Update data barang
         $barang->update([
             'nama' => $request->input('nama'),
-            'category' => $request->input('category'),
+            'category_id' => $category->name,
             'stok' => $request->input('stok'),
             'harga' => $request->input('harga'),
             'tanggal_exp' => $request->input('tanggal_exp'),

@@ -19,11 +19,7 @@
                     <h3>No. Telepon : </h3>
                     <p>{{ $member->no_telp }}</p>
                 </div>
-
-                <div class="form-group">
-                    <h3>Point : </h3>
-                    <p>{{ $member->point }}</p>
-                </div>
+                <a href="{{ route('membership.edit', $member->id) }}" class="btn btn-primary">Edit Membership</a>
             @else
                 <p>Anda belum menjadi anggota. Silakan mendaftar untuk mendapatkan keuntungan keanggotaan.</p>
                 <a href="{{ route('membership.create') }}" class="btn btn-primary">Daftar Membership</a>

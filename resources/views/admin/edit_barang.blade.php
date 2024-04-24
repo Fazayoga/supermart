@@ -21,7 +21,18 @@
 
             <div class="form-group">
                 <label for="category">Category:</label>
-                <input type="text" class="form-control" id="category" name="category" value="{{ $barang->category }}" required>
+                <select class="form-control" id="category" name="category" required>
+                    <option value="" selected disabled>Pilih Kategori</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" @if($category->id == $barang->category_id) selected @endif>{{ $category->name }}</option>
+                    @endforeach
+                    <option value="new">Tambah Kategori Baru</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="new-category" style="display: none;">
+                <label for="new_category">Kategori Baru:</label>
+                <input type="text" class="form-control" id="new_category" name="new_category">
             </div>
 
             <div class="form-group">
@@ -42,4 +53,21 @@
             <button type="submit" class="btn btn-primary">Update</button>
         </form>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var categorySelect = document.getElementById('category');
+            var newCategoryInput = document.getElementById('new-category');
+
+            categorySelect.addEventListener('change', function () {
+                if (this.value === 'new') {
+                    newCategoryInput.style.display = 'block';
+                    newCategoryInput.querySelector('input').setAttribute('required', true);
+                } else {
+                    newCategoryInput.style.display = 'none';
+                    newCategoryInput.querySelector('input').removeAttribute('required');
+                }
+            });
+        });
+    </script>
 @endsection

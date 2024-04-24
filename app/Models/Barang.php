@@ -11,13 +11,10 @@ class Barang extends Model
 
     protected $table = 'barang';
 
-    protected $fillable = [
-        'gambar',
-        'nama',
-        'category',
-        'stok',
-        'harga',
-        'tanggal_exp',
-    ];
+    protected $fillable = [ 'category_id', 'gambar', 'nama', 'stok', 'harga', 'tanggal_exp',];
     
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

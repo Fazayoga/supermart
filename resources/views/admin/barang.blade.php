@@ -19,7 +19,7 @@
                 <tr>
                     <td><img src="{{ $item->gambar }}"></td>
                     <td>{{ $item->nama }}</td>
-                    <td>{{ $item->category }}</td>
+                    <td>{{ $item->category ? $item->category->name : 'Unknown' }}</td>
                     <td>{{ $item->stok }}</td>
                     <td>{{ $item->tanggal_exp }}</td>
                     <td>{{ number_format($item->harga, 0, ',', '.') }}</td>

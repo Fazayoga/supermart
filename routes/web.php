@@ -12,6 +12,7 @@ use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\BarangExpController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\MembershipController;
 
@@ -44,36 +45,6 @@ Route::get('/barang_exp', function () {
     return view('admin.barang_exp');
 })->name('barang_exp');
 
-// Barang Routes
-Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
-Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.create');
-Route::post('/barang', [BarangController::class, 'store'])->name('barang.store');
-Route::get('/barang/{id}/edit', [BarangController::class, 'edit'])->name('barang.edit');
-Route::put('/barang/{id}', [BarangController::class, 'update'])->name('barang.update');
-Route::delete('/barang/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
-Route::get('/barang_exp', [BarangExpController::class, 'index'])->name('barangexp.index');
-Route::get('/check-and-move-expired', [BarangController::class, 'checkAndMoveExpired']);
-
-// Kasir Routes
-Route::get('/kasir', [KasirController::class, 'index'])->name('kasir.index');
-Route::post('/kasir/checkout', [KasirController::class, 'checkout'])->name('kasir.checkout');
-
-Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
-Route::post('/simpan-pembelian', [TransaksiController::class, 'simpanPembelian'])->name('transaksi.pembelian');
-
-// Diskon Routes
-Route::get('/diskon', [DiskonController::class, 'index'])->name('diskon.index');
-Route::get('/diskon/create', [DiskonController::class, 'create'])->name('diskon.create');
-Route::post('/diskon', [DiskonController::class, 'store'])->name('diskon.store');
-Route::get('/diskon/{id}/edit', [DiskonController::class, 'edit'])->name('diskon.edit');
-Route::put('/diskon/{id}', [DiskonController::class, 'update'])->name('diskon.update');
-Route::delete('/diskon/{id}', [DiskonController::class, 'destroy'])->name('diskon.destroy');
-
-// Keranjang Routes
-Route::get('/keranjang', [KeranjangController::class, 'viewCart'])->name('keranjang.index');
-Route::post('/keranjang/add', [KeranjangController::class, 'addToCart'])->name('keranjang.add');
-Route::post('/keranjang/checkout', [KeranjangController::class, 'checkout'])->name('keranjang.checkout');
-
 Route::middleware('auth:admin')->group(function () {
     // Rute yang memerlukan autentikasi admin
     Route::get('/index', function () {
@@ -92,6 +63,45 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/member/{id}/edit', [MemberController::class, 'edit'])->name('member.edit');
     Route::put('/member/{id}', [MemberController::class, 'update'])->name('member.update');
     Route::delete('/member/{id}', [MemberController::class, 'destroy'])->name('member.destroy');
+
+    // Diskon Routes
+    Route::get('/diskon', [DiskonController::class, 'index'])->name('diskon.index');
+    Route::get('/diskon/create', [DiskonController::class, 'create'])->name('diskon.create');
+    Route::post('/diskon', [DiskonController::class, 'store'])->name('diskon.store');
+    Route::get('/diskon/{id}/edit', [DiskonController::class, 'edit'])->name('diskon.edit');
+    Route::put('/diskon/{id}', [DiskonController::class, 'update'])->name('diskon.update');
+    Route::delete('/diskon/{id}', [DiskonController::class, 'destroy'])->name('diskon.destroy');
+    
+    // Barang Routes
+    Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
+    Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.create');
+    Route::post('/barang', [BarangController::class, 'store'])->name('barang.store');
+    Route::get('/barang/{id}/edit', [BarangController::class, 'edit'])->name('barang.edit');
+    Route::put('/barang/{id}', [BarangController::class, 'update'])->name('barang.update');
+    Route::delete('/barang/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
+    Route::get('/barang_exp', [BarangExpController::class, 'index'])->name('barangexp.index');
+    Route::get('/check-and-move-expired', [BarangController::class, 'checkAndMoveExpired']);
+    
+    // Category 
+    Route::get('/membership', [BarangController::class, 'indexMembership'])->name('membership.index');
+
+    // Kasir Routes
+    Route::get('/kasir', [KasirController::class, 'index'])->name('kasir.index');
+    Route::post('/kasir/checkout', [KasirController::class, 'checkout'])->name('kasir.checkout');
+
+    // Transaksi Routes
+    Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+    Route::post('/simpan-pembelian', [TransaksiController::class, 'simpanPembelian'])->name('transaksi.pembelian');
+    Route::get('/transaksi/download/{tanggal}', [TransaksiController::class, 'download'])->name('transaksi.download');
+
+    Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+    Route::get('/header-category', [CategoryController::class, 'header'])->name('category.header');
+    Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
+    Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
+    Route::get('/category/{category}', [CategoryController::class, 'show'])->name('category.show');
+    Route::get('/category/{category}/edit', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::put('/category/{category}', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('/category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 });
 
 Route::middleware('auth:web')->group(function () {
@@ -100,6 +110,7 @@ Route::middleware('auth:web')->group(function () {
 
     // User Routes
     Route::get('/profil-user', [UserController::class, 'profil'])->name('user.profil');
+    Route::get('/profil-user', [UserController::class, 'indexProfil'])->name('user.profil');
     Route::get('/edit-user', [UserController::class, 'edit'])->name('user.edit_user');
     Route::patch('/update-user', [UserController::class, 'updateProfile'])->name('user.updateProfile');
 
@@ -111,6 +122,14 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/membership/{id}/edit', [MembershipController::class, 'edit'])->name('membership.edit');
     Route::put('/membership/{id}', [MembershipController::class, 'update'])->name('membership.update');
     Route::delete('/membership/{id}', [MembershipController::class, 'destroy'])->name('membership.destroy');
+
+    // Keranjang Routes
+    Route::get('/keranjang', [KeranjangController::class, 'viewCart'])->name('keranjang.index');
+    Route::get('/keranjang', [KeranjangController::class, 'indexKeranjang'])->name('keranjang.index');
+    Route::post('/keranjang/add', [KeranjangController::class, 'addToCart'])->name('keranjang.add');
+    Route::post('/keranjang/checkout', [KeranjangController::class, 'checkout'])->name('keranjang.checkout');
+
+
 });
 
 // Admin Authentication Routes

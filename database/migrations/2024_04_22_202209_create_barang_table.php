@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('barang', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->string('gambar')->nullable();
             $table->string('nama')->nullable();
-            $table->string('category')->nullable();
             $table->integer('stok')->nullable();
             $table->decimal('harga', 10, 2)->nullable();
             $table->date('tanggal_exp')->nullable();
             $table->boolean('expired')->default(false);
             $table->timestamps();
+
+            $table->foreign('category')->references('id')->on('category')->onDelete('cascade');
         });
     }
 
